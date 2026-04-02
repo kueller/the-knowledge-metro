@@ -4,7 +4,7 @@ export const EN_TEXT = {
     },
     
     "take-line": {
-        "translation": "Take line..."
+        "translation": "Take line…"
     },
 
     "current-station": {
@@ -12,11 +12,11 @@ export const EN_TEXT = {
     },
 
     "towards": {
-        "translation": "Towards..."
+        "translation": "Towards…"
     },
 
     "to-station": {
-        "translation": "To the station..."
+        "translation": "To the station…"
     },
 
     "tunnel": {

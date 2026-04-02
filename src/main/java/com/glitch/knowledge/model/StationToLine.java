@@ -13,10 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 /**
- * Map of {@link Station} to {@link Line}.
- * <br>
- * There should be one entry for every line a station might service. At least one entry per station.
- * <br>
+ * Map of {@link Station} to {@link Line}. <br>
+ * There should be one entry for every line a station might service. At least
+ * one entry per station. <br>
  * Also includes specific information of the station for any associated line.
  */
 @Entity(name = "station_line")
@@ -51,7 +50,8 @@ public class StationToLine {
     }
 
     /**
-     * @return Arbitrarily chosen station weight on the line. Starting station is 0 and increases to the end.
+     * @return Arbitrarily chosen station weight on the line. Starting station is 0
+     *         and increases to the end.
      */
     public int getPosition() {
         return this.position;
@@ -65,7 +65,8 @@ public class StationToLine {
     }
 
     /**
-     * @return {@link Station} ID of the branch (terminus of the branch). Is null if the station is not on a branch.
+     * @return {@link Station} ID of the branch (terminus of the branch). Is null if
+     *         the station is not on a branch.
      */
     public Integer getBranchId() {
         return this.branch_id;

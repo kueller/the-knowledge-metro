@@ -35,7 +35,8 @@ build/
 ### VS Code ###
 .vscode/
 
-src/main/resources/application-priv.properties
+### Private test properties ###
+**/application-priv.properties
 
 ### npm leftovers ###
 package.json

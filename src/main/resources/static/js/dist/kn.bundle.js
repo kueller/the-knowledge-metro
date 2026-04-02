@@ -1,12 +1,74 @@
 import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.mjs';
 
+const FR_TEXT = {
+    "title": {
+        "translation": "The Knowledge (Métro de Paris)"
+    },
+    
+    "take-line": {
+        "translation": "Je prends la ligne…"
+    },
+
+    "current-station": {
+        "translation": "(Vous êtes à $station)"
+    },
+
+    "towards": {
+        "translation": "Direction…"
+    },
+
+    "to-station": {
+        "translation": "Jusqu'à la station…"
+    },
+
+    "tunnel": {
+        "translation": "➡️ Correspondance à la ligne $line en passant par $tunnel_station."
+    },
+
+    "arrived": {
+        "translation": "🎉 Vous êtes arrivé ! 🎉"
+    },
+
+    "fail": {
+        "translation": "❌"
+    },
+
+    "refresh": {
+        "translation": "Rechargez pour reésayer."
+    },
+
+    "origin-not-on-line": {
+        "translation": "❌ $origin n'est pas desservie par la ligne $line"
+    },
+
+    "no-tunnel-to-line": {
+        "translation": "❌ Pas de liaison entre $origin et la ligne $line"
+    },
+
+    "dest-not-on-line": {
+        "translation": "❌ $destination n'est pas desservie par la ligne $line"
+    },
+
+    "wrong-branch": {
+        "translation": "❌ $destination n'est pas située sur cette branche"
+    },
+
+    "wrong-way": {
+        "translation": "❌ Wrong way to get to $destination"
+    },
+
+    "wrong-way-one-way": {
+        "translation": "❌ Can't go that way from $origin"
+    }
+};
+
 const EN_TEXT = {
     "title": {
         "translation": "The Knowledge (Paris Metro)"
     },
     
     "take-line": {
-        "translation": "Take line..."
+        "translation": "Take line…"
     },
 
     "current-station": {
@@ -14,11 +76,11 @@ const EN_TEXT = {
     },
 
     "towards": {
-        "translation": "Towards..."
+        "translation": "Towards…"
     },
 
     "to-station": {
-        "translation": "To the station..."
+        "translation": "To the station…"
     },
 
     "tunnel": {
@@ -1968,7 +2030,9 @@ const GameConfig = new KnowledgeGameConfig();
 function set_language() {
     let lang = document.documentElement.lang;
 
-    if (lang == "fr") ; else {
+    if (lang == "fr") {
+        GameConfig.text = FR_TEXT;
+    } else {
         GameConfig.text = EN_TEXT;
     }
 
@@ -2010,6 +2074,7 @@ function init() {
 function cleanInput(input) {
     return input.trim()
         .replaceAll('-', ' ')
+        .replaceAll('—', ' ')
         .replaceAll("'", ' ')
         .replaceAll('’', ' ')
         .split(/\s+/)
@@ -2366,6 +2431,8 @@ function validate() {
     fetch("/maison/verify/line/" + line_id + "/origin/" + origin_id + "/destination/" + destination_id + "/direction/" + direction_id,
         {
             method: 'GET',
+            credentials: "same-origin",
+            headers: { lang: document.documentElement.lang },
         })
         .then(response => {
             if (!response.ok) {

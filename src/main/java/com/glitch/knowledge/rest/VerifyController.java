@@ -3,6 +3,7 @@ package com.glitch.knowledge.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,10 @@ import com.glitch.knowledge.model.constant.StationDirection;
 import com.glitch.knowledge.rest.model.VerifyResponse;
 import com.glitch.knowledge.service.LineService;
 import com.glitch.knowledge.service.StationService;
+import com.glitch.knowledge.util.LanguageUtil;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 public class VerifyController {
@@ -25,6 +30,9 @@ public class VerifyController {
 
     @Autowired
     private StationService stationService;
+
+    @Value("${application.domain.url}")
+    private String appUrl;
 
     private final int WRONG = -1;
     private final int CORRECT = 0;
@@ -40,7 +48,7 @@ public class VerifyController {
     }
 
     /**
-     * From a starting statoin, the player chooses a line, a direction of that line,
+     * From a starting station, the player chooses a line, a direction of that line,
      * and a destination. The method verifies that this ia valid journey in the
      * transport system.
      * 
@@ -48,7 +56,7 @@ public class VerifyController {
      *                    station.
      * @param origin_id   ID of the station the player starts the leg from.
      * @param dest_id     ID of the station the player wants to arrive at.
-     * @param terminus_id ID of the last statoin on the line in the direction the
+     * @param terminus_id ID of the last station on the line in the direction the
      *                    player chooses to travel.
      * 
      * @return 400 if the data is invalid (will not trigger a game failure), 200 if
@@ -64,7 +72,9 @@ public class VerifyController {
      */
     @GetMapping("/maison/verify/line/{line_id}/origin/{origin_id}/destination/{dest_id}/direction/{terminus_id}")
     public ResponseEntity<VerifyResponse> verify(@PathVariable int line_id, @PathVariable int origin_id,
-            @PathVariable int dest_id, @PathVariable int terminus_id) {
+            @PathVariable int dest_id, @PathVariable int terminus_id, HttpServletRequest request,
+            HttpServletResponse response) {
+        LanguageUtil.checkAndUpdateLanguageFromHeader(request, response);
 
         Line line;
         Station origin;

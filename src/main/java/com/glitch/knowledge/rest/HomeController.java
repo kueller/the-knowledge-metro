@@ -1,6 +1,7 @@
 package com.glitch.knowledge.rest;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.glitch.knowledge.model.Station;
 import com.glitch.knowledge.service.StationService;
+import com.glitch.knowledge.util.LanguageUtil;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class HomeController {
@@ -22,15 +27,15 @@ public class HomeController {
     private boolean useMins;
 
     @GetMapping("/")
-    public String knowledge(@RequestParam(required = false) String lang, Model model) {
+    public String knowledge(@RequestParam(required = false) String lang, HttpServletRequest request,
+            HttpServletResponse response, Locale locale, Model model) {
         List<Station> stations = stationService.getTwoRandom();
 
-        if (lang == null || !List.of("en", "fr").contains(lang))
-            lang = "en";
+        String final_lang = LanguageUtil.getLanguageAndSetCookie(lang, locale, request, response);
 
         model.addAttribute("origin", stations.get(0));
         model.addAttribute("destination", stations.get(1));
-        model.addAttribute("lang", lang);
+        model.addAttribute("lang", final_lang);
         model.addAttribute("useMins", this.useMins);
 
         return "index";

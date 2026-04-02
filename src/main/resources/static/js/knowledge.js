@@ -1,3 +1,4 @@
+import { FR_TEXT } from "./locale/fr.js";
 import { EN_TEXT } from "./locale/en.js";
 import { LINES } from "./const/lines.js";
 import { STATIONS } from "./const/stations.js";
@@ -71,6 +72,7 @@ function set_language() {
     let lang = document.documentElement.lang;
 
     if (lang == "fr") {
+        GameConfig.text = FR_TEXT;
     } else {
         GameConfig.text = EN_TEXT;
     }
@@ -113,6 +115,7 @@ function init() {
 function cleanInput(input) {
     return input.trim()
         .replaceAll('-', ' ')
+        .replaceAll('—', ' ')
         .replaceAll("'", ' ')
         .replaceAll('’', ' ')
         .split(/\s+/)
@@ -469,6 +472,8 @@ function validate() {
     fetch("/maison/verify/line/" + line_id + "/origin/" + origin_id + "/destination/" + destination_id + "/direction/" + direction_id,
         {
             method: 'GET',
+            credentials: "same-origin",
+            headers: { lang: document.documentElement.lang },
         })
         .then(response => {
             if (!response.ok) {

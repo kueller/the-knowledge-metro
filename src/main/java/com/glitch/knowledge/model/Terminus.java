@@ -10,8 +10,9 @@ import jakarta.persistence.ManyToOne;
 /**
  * Map of {@link Line} to any {@link Station} that is a terminus for the line.
  * <br>
- * Lines that are {@link LineType} LOOP should have at least one station randomly
- * chosen as a terminus. This is for compatibility and will not affect the code.
+ * Lines that are {@link LineType} LOOP should have at least one station
+ * randomly chosen as a terminus. This is for compatibility and will not affect
+ * the code.
  */
 @Entity(name = "terminus")
 public class Terminus {
