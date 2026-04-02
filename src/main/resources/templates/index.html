@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="https;//thymeleaf.org" th:attr="lang=${lang}">
+    <head>
+        <title>The Knowledge (métro parisien)</title>
+
+        <meta charset="utf-8">
+        <meta property="og:title" content="The Knowledge (métro parisien)"/>
+        <meta property="og:url" content="https://knowledge.glitch.paris"/>
+        <meta name="viewport" content="width=device-width initial-scale=1"/>
+
+        <link rel="stylesheet" type="text/css" th:href="@{ (${useMins} ? '/style/kn.min.css' : '/style/knowledge.css') }"/>
+
+        <script type="module" th:src="@{ (${useMins} ? '/js/dist/kn.min.js' : '/js/knowledge.js') }"></script>
+    </head>
+
+    <body>
+        <div class="page">
+            <div class="content-wrap">
+                <div id="game-content" class="game-content">
+                    <div id="start-dest" class="start-dest">
+                        <span th:id="'origin-' + ${origin.id}" th:text="${origin.name}"></span>
+                        →
+                        <span th:id="'dest-' + ${destination.id}" th:text="${destination.name}"></span>
+                    </div>
+
+                    <div id="steps-container" class="steps-container">
+                        <div id="line-select" class="step">
+                            <div class="i18n">
+                                <span class="take-line"></span>
+                            </div>
+                            <button class="metro-button" type="button" style="background: url(/svg/1.svg)" id="1"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/2.svg)" id="2"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/3.svg)" id="3"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/3bis.svg)" id="21"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/4.svg)" id="4"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/5.svg)" id="5"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/6.svg)" id="6"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/7.svg)" id="7"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/7bis.svg)" id="22"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/8.svg)" id="8"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/9.svg)" id="9"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/10.svg)" id="10"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/11.svg)" id="11"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/12.svg)" id="12"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/13.svg)" id="13"></button>
+                            <button class="metro-button" type="button" style="background: url(/svg/14.svg)" id="14"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
