@@ -1,4 +1,45 @@
+@font-face {
+  font-family: "l1_par-5_std_ws_z01";
+  src: url(/fonts/l1_par-reg-5_std_ws_z01-a716f8ca.woff2);
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "l1_par-5_std_ws_z01";
+  src: url(/fonts/l1_par-bolit-5_std_ws_z01-97b6f51d.woff2);
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "l1_par-5_std_ws_z01";
+  src: url(/fonts/l1_par-ita-5_std_ws_z01-cc3d2c5f.woff2);
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "l1_par-5_std_ws_z01";
+  src: url(/fonts/l1_par-bol-5_std_ws_z01-2d811af6.woff2);
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+    --font-size-challenge: 27px;
+    --font-size-final: 23px;
+    --font-size-normal: 19px;
+
+    --game-width: 750px;
+}
+
 body {
+    font-family: "l1_par-5_std_ws_z01", sans-serif;
     background-color: #fefce9;
     margin: 0px;
 }
@@ -14,7 +55,7 @@ body {
 
 .game-content {
     margin: auto;
-    max-width: 800px;
+    max-width: var(--game-width);
     text-align: left;
     color: #303030;
     padding: 0px;
@@ -26,7 +67,7 @@ body {
     padding-bottom: 30px;
     padding-left: 0px;
     padding-right: 0px;
-    font-size: 25px;
+    font-size: var(--font-size-challenge);
     font-weight: bold;
 }
 
@@ -41,8 +82,8 @@ body {
     opacity: 1;
     scale: 1;
     position: absolute;
-    width: 800px;
-    max-width: 800px;
+    width: var(--game-width);
+    max-width: var(--game-width);
     transform-origin: top left;
     transition: opacity 0.8s, transform 0.8s;
 
@@ -57,33 +98,22 @@ body {
 }
 
 .i18n p {
-    font-size: 18px;
+    font-size: var(--font-size-normal);
 }
 
 .i18n span {
-    font-size: 18px;
+    font-size: var(--font-size-normal);
     padding-right: 10px;
 }
 
-.i18n h1 {
-    font-size: 33px;
-    margin-top: 0px;
-}
-
-.i18n h1:after {
-    content: "";
-    display: block;
-    border: 1px solid;
-}
-
 .i18n h2 {
-    font-size: 23px;
+    font-size: var(--font-size-final);
     margin-bottom: 0px;
     padding-bottom: 0px;
 }
 
 .search-box {
-    font-size: 18px;
+    font-size: var(--font-size-normal);
     font-weight: bold;
     width: 400px;
     padding: 6px 10px;
@@ -98,6 +128,8 @@ body {
     display: inline-block;
     width: 40px;
     height: 40px;
+    background: url(/svg/lignes.svg);
+    background-size: auto 100%;
     border-radius: 50%;
     border-width: 0px;
     border-color: #221f21;
@@ -109,6 +141,10 @@ body {
 .metro-button:hover:enabled {
     transform: scale(1.2);
     box-shadow: 2px 2px 3px 2px darkgray;
+}
+
+.metro-button:disabled {
+    transform: scale(1.0);
 }
 
 .steps-container .direction-button-wrap {
@@ -125,7 +161,7 @@ body {
     border-radius: 5%;
     color: #0b489f;
     text-align: center;
-    font-size: 18px;
+    font-size: var(--font-size-normal);
     font-weight: bold;
     box-shadow: 3px 3px 3px 1px gray;
 }

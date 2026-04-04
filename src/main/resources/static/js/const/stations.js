@@ -732,7 +732,7 @@ export const STATIONS = [
       {
           "id": 147,
           "name": "Les Courtilles",
-          "tags": []
+          "tags": ["Asnieres Gennevilliers Les Courtilles"]
       },
       {
           "id": 148,

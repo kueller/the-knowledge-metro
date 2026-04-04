@@ -1096,7 +1096,7 @@ const STATIONS = [
       {
           "id": 147,
           "name": "Les Courtilles",
-          "tags": []
+          "tags": ["Asnieres Gennevilliers Les Courtilles"]
       },
       {
           "id": 148,
@@ -2021,6 +2021,7 @@ class KnowledgeGameConfig {
     prev_step = null;
     search_box = null;
 
+    line_style_width = 0;
 }
 
 const GameConfig = new KnowledgeGameConfig();
@@ -2066,6 +2067,7 @@ function init() {
         );
     }
 
+    GameConfig.line_style_width = parseInt(getComputedStyle(metro_buttons[0]).width);
     GameConfig.current_step = document.getElementById("line-select");
     GameConfig.state = State.LINE;
 }
@@ -2310,7 +2312,7 @@ function transitionToLine() {
         const button = document.createElement("button");
         button.className = "metro-button";
         button.type = "button";
-        button.style.background = "url(/svg/" + LINES[line_id].name + ".svg)";
+        button.style.backgroundPosition = -1 * GameConfig.line_style_width * i + "px 0";
         button.onclick = function (e) { event_metroLineClicked(e, line_id); };
         line_select.appendChild(button);
     }
@@ -2512,7 +2514,7 @@ function stationSearch() {
 function event_metroLineClicked(event, line) {
     if (GameConfig.state != State.LINE) return;
 
-    event.target.style.borderWidth = "4px";
+    event.target.style.boxShadow = "0 0 1px 4px black";
 
     let line_id = Number(line);
 

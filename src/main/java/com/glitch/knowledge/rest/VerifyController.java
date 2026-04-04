@@ -3,7 +3,6 @@ package com.glitch.knowledge.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +29,6 @@ public class VerifyController {
 
     @Autowired
     private StationService stationService;
-
-    @Value("${application.domain.url}")
-    private String appUrl;
 
     private final int WRONG = -1;
     private final int CORRECT = 0;

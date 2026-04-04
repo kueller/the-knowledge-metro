@@ -12,7 +12,7 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 public class LocaleConfig {
 
     @Bean
-    public LocaleResolver localeResolver() {
+    public LocaleResolver gameLocaleResolver() {
         AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
         resolver.setSupportedLocales(List.of(Locale.FRENCH));
         resolver.setDefaultLocale(Locale.ENGLISH);
