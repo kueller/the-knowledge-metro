@@ -52,10 +52,10 @@ export const FR_TEXT = {
     },
 
     "wrong-way": {
-        "translation": "❌ Wrong way to get to $destination"
+        "translation": "❌ Mauvais direction pour aller à $destination"
     },
 
     "wrong-way-one-way": {
-        "translation": "❌ Can't go that way from $origin"
+        "translation": "❌ Cette direction n'est pas desservie par $origin"
     }
 };

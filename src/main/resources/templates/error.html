@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="https;//thymeleaf.org">
+    <head>
+        <title>The Knowledge (métro parisien)</title>
+    </head>
+
+    <body>
+        <h1 th:text="${status} + ' ' + ${description}"></h1>
+        <p>
+            <span>Issue on requested URL</span>
+            <b><span th:text="${path}"></span></b>
+        </p> 
+    </body>
+</html>

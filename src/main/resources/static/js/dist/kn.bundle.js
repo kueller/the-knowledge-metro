@@ -54,11 +54,11 @@ const FR_TEXT = {
     },
 
     "wrong-way": {
-        "translation": "❌ Wrong way to get to $destination"
+        "translation": "❌ Mauvais direction pour aller à $destination"
     },
 
     "wrong-way-one-way": {
-        "translation": "❌ Can't go that way from $origin"
+        "translation": "❌ Cette direction n'est pas desservie par $origin"
     }
 };
 
@@ -2376,6 +2376,7 @@ function transitionToDirection(line_id) {
         return;
 
     if (selected_line.termini.length < 2) {
+        GameConfig.line_id = line_id;
         transitionToStation(selected_line.termini[0].id);
         return;
     }
@@ -2421,6 +2422,7 @@ function validate() {
     let line_id = GameConfig.line_id;
     let direction_id = GameConfig.direction_id;
 
+    console.log("origin: " + origin_id + " destination: " + destination_id + " line: " + line_id + " direction: " + direction_id);
     if (origin_id == 0 ||
         destination_id == 0 ||
         line_id == 0 ||

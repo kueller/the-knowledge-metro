@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
+		<?m2e execute onConfiguration?>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>4.0.5</version>
@@ -10,7 +11,7 @@
 	</parent>
 	<groupId>com.glitch</groupId>
 	<artifactId>knowledge</artifactId>
-	<version>0.2.1</version>
+	<version>0.3.0</version>
 	<name>knowledge</name>
 	<description/>
 	<url/>
@@ -28,6 +29,8 @@
 	</scm>
 	<properties>
 		<java.version>25</java.version>
+		<kotlin.version>2.3.20</kotlin.version>
+		<start-class>com.glitch.knowledge.KnowledgeApplicationKt</start-class>
 		<skipMinify>false</skipMinify>
 		<project.static>${project.basedir}/src/main/resources/static</project.static>
 		<css.filename>knowledge.css</css.filename>
@@ -56,6 +59,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-reflect</artifactId>
+			<version>${kotlin.version}</version>
 		</dependency>
 
 		<dependency>
@@ -88,9 +96,16 @@
 			<artifactId>spring-boot-starter-thymeleaf-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-test-junit5</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<sourceDirectory>src/main/kotlin</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -155,6 +170,12 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-maven-plugin</artifactId>
+				<version>${kotlin.version}</version>
+				<extensions>true</extensions>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

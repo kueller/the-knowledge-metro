@@ -417,6 +417,7 @@ function transitionToDirection(line_id) {
         return;
 
     if (selected_line.termini.length < 2) {
+        GameConfig.line_id = line_id;
         transitionToStation(selected_line.termini[0].id);
         return;
     }
