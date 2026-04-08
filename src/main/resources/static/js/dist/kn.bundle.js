@@ -2084,6 +2084,14 @@ function cleanInput(input) {
 }
 
 
+function variable_yshift(base) {
+    const element_height = Math.trunc(GameConfig.current_step.getBoundingClientRect().height / 2) - 90;
+    if (element_height >= base) {
+        base = element_height + 20;
+    }
+
+    return base;
+}
 
 
 function setSearchBoxToFinalColor(search_box, color) {
@@ -2297,15 +2305,11 @@ function transitionToLine() {
 
     const text_container = createI18NContainer(line_select);
     addI18NTextToContainer("span", "take-line", text_container);
-    line_select.appendChild(document.createElement("p"));
 
-    const current = addI18NTextToContainer(
+    addI18NTextToContainer(
         "span", "current-station", text_container,
         [{ key: "$station", value: STATIONS[GameConfig.destination_id - 1].name }]
     );
-    current.style.textAlign = "right";
-    current.style.float = "right";
-    current.style.color = Color.DARK_GRAY;
 
     for (let i = 0; i < LINES_IN_ORDER.length; i++) {
         let line_id = LINES_IN_ORDER[i];
@@ -2338,9 +2342,14 @@ function transitionToStation(direction_id) {
 
     let steps_container = document.getElementById("steps-container");
 
+    let yshift = 30;
+    if (GameConfig.state == State.LINE) {
+        yshift = variable_yshift(yshift);
+    }
+
     const station_select = document.createElement("div");
     station_select.className = "step";
-    station_select.style.transform = "translateY(30px)";
+    station_select.style.transform = "translateY(" + yshift + "px)";
 
     const text_container = createI18NContainer(station_select);
     addI18NTextToContainer("p", "to-station", text_container);
@@ -2381,9 +2390,11 @@ function transitionToDirection(line_id) {
         return;
     }
 
+    let yshift = variable_yshift(30);
+
     const direction_select = document.createElement("div");
     direction_select.className = "step";
-    direction_select.style.transform = "translateY(30px)";
+    direction_select.style.transform = "translateY(" + yshift + "px)";
 
     const text_container = createI18NContainer(direction_select);
     addI18NTextToContainer("p", "towards", text_container);
@@ -2422,7 +2433,6 @@ function validate() {
     let line_id = GameConfig.line_id;
     let direction_id = GameConfig.direction_id;
 
-    console.log("origin: " + origin_id + " destination: " + destination_id + " line: " + line_id + " direction: " + direction_id);
     if (origin_id == 0 ||
         destination_id == 0 ||
         line_id == 0 ||

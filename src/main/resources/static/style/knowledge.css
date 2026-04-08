@@ -36,6 +36,9 @@
     --font-size-normal: 19px;
 
     --game-width: 750px;
+    --game-width-small: 600px;
+
+    --search-box-width: 400px;
 }
 
 body {
@@ -58,7 +61,7 @@ body {
     max-width: var(--game-width);
     text-align: left;
     color: #303030;
-    padding: 0px;
+    padding: 15px;
     line-height: 1.6;
 }
 
@@ -82,15 +85,15 @@ body {
     opacity: 1;
     scale: 1;
     position: absolute;
-    width: var(--game-width);
-    max-width: var(--game-width);
+    width: calc(var(--game-width) - 30px);
+    max-width: calc(var(--game-width) - 30px);
     transform-origin: top left;
     transition: opacity 0.8s, transform 0.8s;
 
 }
 
 .i18n {
-    display: block;
+    display: inline-block;
     font-weight: bold;
     width: 100%;
     margin-top: 10px;
@@ -102,8 +105,15 @@ body {
 }
 
 .i18n span {
+    display: inline-block;
     font-size: var(--font-size-normal);
     padding-right: 10px;
+}
+
+.i18n span:nth-child(even) {
+    float: right;
+    color: #7e8285;
+    margin-bottom: 5px;
 }
 
 .i18n h2 {
@@ -115,7 +125,7 @@ body {
 .search-box {
     font-size: var(--font-size-normal);
     font-weight: bold;
-    width: 400px;
+    width: var(--search-box-width);
     padding: 6px 10px;
 }
 
@@ -149,6 +159,8 @@ body {
 
 .steps-container .direction-button-wrap {
     display: flex;
+    flex-wrap: wrap;
+    row-gap: 20px;
     justify-content: space-evenly;
     width: 100%;
 }
@@ -174,4 +186,33 @@ body {
 .direction-button:focus:enabled {
     transform: scale(1.15);
     box-shadow: 3px 3px 5px 2px gray, 1px 1px gray inset;
+}
+
+@media only screen and (min-width: 320px) {
+    .game-content {max-width: 100%;}
+    .game-content .step {
+        width: calc(100% - 30px); 
+        max-width: calc(100% - 30px); 
+    }
+    .search-box { max-width: 100%; }
+}
+
+@media only screen and (min-width: 400px) {
+    .search-box { width: var(--search-box-width); }
+}
+
+@media only screen and (min-width: 600px) {
+    .game-content {max-width: var(--game-width-small);}
+    .game-content .step { 
+        width: calc(var(--game-width-small) - 30px); 
+        max-width: calc(var(--game-width-small) - 30px); 
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    .game-content {max-width: var(--game-width);}
+    .game-content .step { 
+        width: calc(var(--game-width) - 30px); 
+        max-width: calc(var(--game-width) - 30px); 
+    }
 }
