@@ -1,10 +1,18 @@
 export const FR_TEXT = {
     "title": {
-        "translation": "The Knowledge (Métro de Paris)"
+        "translation": "The Knowledge"
+    },
+
+    "subtitle": {
+        "translation": "Métro de Paris"   
+    },
+
+    "progress-title": {
+        "translation": "Progrès"
     },
     
     "take-line": {
-        "translation": "Je prends la ligne…"
+        "translation": "Prenez la ligne…"
     },
 
     "current-station": {

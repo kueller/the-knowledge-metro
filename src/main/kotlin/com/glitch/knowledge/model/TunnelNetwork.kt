@@ -1,6 +1,15 @@
 package com.glitch.knowledge.model
 
-import jakarta.persistence.*
+import org.jetbrains.exposed.v1.core.dao.id.EntityID
+import org.jetbrains.exposed.v1.core.dao.id.IntIdTable
+import org.jetbrains.exposed.v1.dao.ImmutableEntityClass
+import org.jetbrains.exposed.v1.dao.IntEntity
+
+
+internal object TunnelNetworkTable : IntIdTable("tunnel_network") {
+    val name = varchar("name", 100)
+}
+
 
 /**
  * Represents tunnels (or bridges, etc) that connect one or more different
@@ -11,19 +20,10 @@ import jakarta.persistence.*
  * @property id Database ID.
  * @property name Internal name of the network. This is purely for tagging and is not intended to ever be shown
  * publicly.
- * @property connectingStations List of [Station] that connects to this tunnel network. All connected stations
  * can have valid transfers between them, even if the stations have different names.
  */
-@Entity(name = "tunnel_network")
-class TunnelNetwork(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+internal class TunnelNetworkDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : ImmutableEntityClass<Int, TunnelNetworkDAO>(TunnelNetworkTable)
 
-    @Column(length = 100, nullable = false)
-    var name: String? = null,
-
-    @OneToMany(mappedBy = "tunnel")
-    var connectingStations: Set<Station?> = setOf(),
-)
-
+    val name: String by TunnelNetworkTable.name
+}

@@ -69,13 +69,20 @@ const GameConfig = new KnowledgeGameConfig();
 
 
 
-function set_language() {
+function set_language(override_lang = null) {
+    if (override_lang != null) {
+        console.log("new: " + override_lang);
+        document.documentElement.lang = override_lang
+    }
+
     let lang = document.documentElement.lang;
 
     if (lang == "fr") {
         GameConfig.text = FR_TEXT;
-    } else {
+    } else if (lang == "en") {
         GameConfig.text = EN_TEXT;
+    } else {
+        return;
     }
 
     for (let game_text in GameConfig.text) {
@@ -107,6 +114,19 @@ function init() {
             function (e) { event_metroLineClicked(e, line_id); }
         );
     }
+
+    const fr_button = document.getElementById("lang-fr");
+    const en_button = document.getElementById("lang-en");
+
+    fr_button.addEventListener(
+        "change",
+        function(e) { set_language(e.target.value); }
+    )
+
+    en_button.addEventListener(
+        "change",
+        function(e) { set_language(e.target.value); }
+    )
 
     GameConfig.line_style_width = parseInt(getComputedStyle(metro_buttons[0]).width);
     GameConfig.current_step = document.getElementById("line-select");
@@ -295,7 +315,8 @@ function transitionToSuccess(new_origin_id) {
         tunnel.style.marginBottom = "10px";
     }
 
-    const refresh = addI18NTextToContainer("p", "refresh", text_container);
+    const refresh = addI18NTextToContainer("a", "refresh", text_container);
+    refresh.href = "./"
     refresh.style.color = Color.DARK_GRAY;
     refresh.style.marginTop = "10px";
 

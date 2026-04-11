@@ -1,6 +1,16 @@
 package com.glitch.knowledge.model
 
-import jakarta.persistence.*
+import org.jetbrains.exposed.v1.core.dao.id.EntityID
+import org.jetbrains.exposed.v1.core.dao.id.IntIdTable
+import org.jetbrains.exposed.v1.dao.ImmutableEntityClass
+import org.jetbrains.exposed.v1.dao.IntEntity
+
+
+internal object TerminusTable : IntIdTable("terminus") {
+    val lineId = reference("line_id", LineTable.id)
+    val stationId = reference("station_id", StationTable.id)
+}
+
 
 /**
  * Map of [Line] to any [Station] that is a terminus for the line.
@@ -13,17 +23,9 @@ import jakarta.persistence.*
  * @property line [Line] that this station terminates.
  * @property terminus The [Station] object for this terminus.
  */
-@Entity(name = "terminus")
-class Terminus(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+internal class TerminusDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : ImmutableEntityClass<Int, TerminusDAO>(TerminusTable)
 
-    @ManyToOne
-    @JoinColumn(name = "line_id", referencedColumnName = "id")
-    var line: Line? = null,
-
-    @ManyToOne
-    @JoinColumn(name = "station_id", referencedColumnName = "id")
-    var terminus: Station? = null,
-)
+    val line by LineDAO.referencedOn(TerminusTable.lineId)
+    val terminus by StationDAO.referencedOn(TerminusTable.stationId)
+}

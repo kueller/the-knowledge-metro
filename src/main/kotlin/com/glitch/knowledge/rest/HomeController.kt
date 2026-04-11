@@ -1,7 +1,6 @@
-package com.glitch.knowledge.rest;
+package com.glitch.knowledge.rest
 
 import com.glitch.knowledge.model.Station
-import com.glitch.knowledge.service.StationService
 import com.glitch.knowledge.util.getLanguageAndSetCookie
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -12,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import java.util.*
 
+
 @Controller
 class HomeController(
-    private val stationService: StationService,
     @param:Value("\${application.use-mins}") private val useMins: Boolean = false
 ) {
 
@@ -26,7 +25,7 @@ class HomeController(
         locale: Locale,
         model: Model
     ): String {
-        val stationData: List<Station> = this.stationService.getTwoRandom()
+        val stationData: List<Station> = Station.getTwoRandom()
 
         val finalLang: String = getLanguageAndSetCookie(lang, locale, request, response)
 

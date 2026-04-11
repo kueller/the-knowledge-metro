@@ -17,6 +17,33 @@
     <body>
         <div class="page">
             <div class="content-wrap">
+                <div class="title-bar">
+                    <div class="title-wrap">
+                        <span class="title-text">
+                            <h1 class="title"></h1>
+                            <small class="subtitle"></small>
+                        </span>
+                        <span class="language-select-container">
+                            <label class="language-option-box">
+                                <input id="lang-fr" type="radio" name="language" value="fr" th:checked="${lang} == fr">
+                                <span class="language-radio-button">fr</span>
+                            </label> 
+                            <label class="language-option-box">
+                                <input id="lang-en" type="radio" name="language" value="en" th:checked="${lang} == en">
+                                <span class="language-radio-button">en</span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="progress-window">
+                    <div class="progress-title-wrap">
+                        <span class="progress-title"></span>
+                    </div>
+                    <div class="progress-list">
+                        <hr>
+                    </div>
+                </div>
                 <div id="game-content" class="game-content">
                     <div id="start-dest" class="start-dest">
                         <span th:id="'origin-' + ${origin.id}" th:text="${origin.name}"></span>

@@ -31,9 +31,22 @@
 }
 
 :root {
+    --color-white: #fdfeff;
+    --color-background: #fefce9;
+    --color-dark-gray: #7e8285;
+    --color-dark-blue: #0b489f;
+
+    --color-font: #303030;
+
+    --font-size-title-large: 32px;
+    --font-size-subtitle-large: 20px;
+    --font-size-title-small: 23px;
+    --font-size-subtitle-small: 13px;
+
     --font-size-challenge: 27px;
     --font-size-final: 23px;
     --font-size-normal: 19px;
+    --font-size-small: 12px;
 
     --game-width: 750px;
     --game-width-small: 600px;
@@ -43,7 +56,7 @@
 
 body {
     font-family: "l1_par-5_std_ws_z01", sans-serif;
-    background-color: #fefce9;
+    background-color: var(--color-background);
     margin: 0px;
 }
 
@@ -56,11 +69,120 @@ body {
     padding-bottom: 4rem;
 }
 
+.title-bar {
+    background-color: var(--color-white);
+    color: var(--color-font);
+    line-height: 1.6;
+    min-width: 250px;
+    margin: 0px;
+}
+
+.title-bar .title-wrap {
+    display: flex;
+    padding-left: 15px;
+}
+
+.title-text {
+    display: inline-block;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.title-text h1 {
+    font-size: var(--font-size-title-large);
+    margin-top: 10px;
+    margin-bottom: 0px;
+    line-height: 1.0;
+}
+
+.title-text small {
+    font-size: var(--font-size-subtitle-large);
+    color: var(--color-dark-gray)
+}
+
+.language-select-container {
+    display: inline-block;
+    white-space: nowrap;
+    margin-top: 10px;
+    margin-left: 15px;
+    padding-top: 10px;
+    padding-right: 15px;
+    align-self: center;
+    font-size: 0px;
+}
+
+.language-select-container .language-option-box {
+    display: inline-block;
+    padding: 0px;
+    max-width: 20px;
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    font-weight: normal;
+}
+
+.language-option-box input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.language-option-box .language-radio-button {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    line-height: 19px;
+    color: var(--color-dark-blue);
+    background-color: var(--color-white);
+    border: 2px solid var(--color-dark-blue);
+}
+
+.language-option-box:nth-child(1) .language-radio-button {
+    border-top-left-radius: 20%;
+    border-bottom-left-radius: 20%;
+}
+
+.language-option-box:nth-child(2) .language-radio-button {
+    border-top-right-radius: 20%;
+    border-bottom-right-radius: 20%;
+}
+
+.language-option-box:hover input ~ .language-radio-button {
+    background-color: lightgray;
+}
+
+.language-option-box input:checked ~ .language-radio-button {
+    background-color: var(--color-dark-blue);
+    color: var(--color-white);
+}
+
+.progress-window {
+    background-color: var(--color-white);
+    color: var(--color-font);
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    height: calc(100% - 30px);
+}
+
+.progress-window .progress-title-wrap {
+    padding-top: 30px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: right;
+    font-size: var(--font-size-challenge);
+    font-weight: bold;
+}
+
 .game-content {
     margin: auto;
     max-width: var(--game-width);
     text-align: left;
-    color: #303030;
+    color: var(--color-font);
     padding: 15px;
     line-height: 1.6;
 }
@@ -100,7 +222,17 @@ body {
     margin-bottom: 10px;
 }
 
+.i18n h2 {
+    font-size: var(--font-size-final);
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
 .i18n p {
+    font-size: var(--font-size-normal);
+}
+
+.i18n a {
     font-size: var(--font-size-normal);
 }
 
@@ -112,14 +244,8 @@ body {
 
 .i18n span:nth-child(even) {
     float: right;
-    color: #7e8285;
+    color: var(--color-dark-gray);
     margin-bottom: 5px;
-}
-
-.i18n h2 {
-    font-size: var(--font-size-final);
-    margin-bottom: 0px;
-    padding-bottom: 0px;
 }
 
 .search-box {
@@ -167,7 +293,7 @@ body {
 
 .direction-button {
     padding: 10px 20px;
-    background-color: #fdfeff;
+    background-color: var(--color-white);
     border-width: 0px;
     border-color: #221f21;
     border-radius: 5%;
@@ -189,7 +315,34 @@ body {
 }
 
 @media only screen and (min-width: 320px) {
-    .game-content {max-width: 100%;}
+    .title-bar {
+        width: 100%;
+    }
+
+    .language-select-container { 
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        align-self: center; 
+    }
+
+    .progress-window { 
+        display: none; 
+        margin: auto;
+        width: 100%;
+    }
+
+    .progress-window .progress-title-wrap {
+        text-align: left;
+    }
+
+    .title-text h1 { 
+        font-size: var(--font-size-title-small); 
+        margin-top: 0px;
+    }
+
+    .title-text small { font-size: var(--font-size-subtitle-small); }
+
+    .game-content { max-width: 100%; }
     .game-content .step {
         width: calc(100% - 30px); 
         max-width: calc(100% - 30px); 
@@ -202,7 +355,9 @@ body {
 }
 
 @media only screen and (min-width: 600px) {
-    .game-content {max-width: var(--game-width-small);}
+    .progress-window { width: var(--game-width-small); }
+
+    .game-content { max-width: var(--game-width-small); }
     .game-content .step { 
         width: calc(var(--game-width-small) - 30px); 
         max-width: calc(var(--game-width-small) - 30px); 
@@ -210,9 +365,49 @@ body {
 }
 
 @media only screen and (min-width: 800px) {
-    .game-content {max-width: var(--game-width);}
+    .progress-window { width: var(--game-width); }
+
+    .game-content { 
+        max-width: var(--game-width); 
+        min-width: var(--game-width);
+    }
+
     .game-content .step { 
         width: calc(var(--game-width) - 30px); 
         max-width: calc(var(--game-width) - 30px); 
+        min-width: calc(var(--game-width) - 30px); 
     }
+}
+
+@media only screen and (min-width: 1250px) {
+    .title-bar {
+        position: absolute;
+        margin-right: 20px;
+        /*(  ( (100% - game-width[750px]) - game-padding[2x15] ) / 2 ) - padding-left[20] - margin-right[20] */
+        width: calc(((100% - var(--game-width) - 30px) / 2) - 20px - 20px);
+        height: 100%;
+    }
+
+    .progress-window {
+        display: inline;
+        position: absolute;
+        padding-right: 20px;
+        margin-left: 20px;
+        /*(  ( (100% - game-width[750px]) - game-padding[2x15] ) / 2 ) - margin-left[20] - padding-right[20] */
+        width: calc(((100% - var(--game-width) - 30px) / 2) - 20px - 20px);
+        top: 0;
+        right: 0;
+    }
+
+    .progress-window .progress-title-wrap {
+        text-align: right;
+    }
+
+    .title-text h1 { 
+        font-size: var(--font-size-title-large); 
+        margin-top: 10px;
+    }
+
+    .title-text small { font-size: var(--font-size-subtitle-large); }
+
 }

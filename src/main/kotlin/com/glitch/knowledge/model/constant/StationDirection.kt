@@ -7,7 +7,7 @@ package com.glitch.knowledge.model.constant
  *
  * DECREASING: One way station goes towards 0 value terminus
  * 
- * @see JLineType
+ * @see LineType
  */
 enum class StationDirection {
     BIDIRECTIONAL,

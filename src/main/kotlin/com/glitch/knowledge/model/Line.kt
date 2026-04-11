@@ -1,41 +1,62 @@
 package com.glitch.knowledge.model
 
 import com.glitch.knowledge.model.constant.LineType
-import jakarta.persistence.*
+import org.jetbrains.exposed.v1.core.dao.id.EntityID
+import org.jetbrains.exposed.v1.core.dao.id.IntIdTable
+import org.jetbrains.exposed.v1.dao.ImmutableEntityClass
+import org.jetbrains.exposed.v1.dao.IntEntity
+import org.jetbrains.exposed.v1.dao.with
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+
+
+internal object LineTable : IntIdTable("line") {
+    val name = varchar("name", 16)
+    val type = enumerationByName("type", 16, LineType::class)
+}
+
+
+internal class LineDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : ImmutableEntityClass<Int, LineDAO>(LineTable)
+
+    val name: String by LineTable.name
+    val type: LineType by LineTable.type
+
+    val termini by StationDAO.via(TerminusTable.lineId, TerminusTable.stationId)
+}
+
 
 /**
  * @property id Database ID.
  * @property name Name of the line.
  * @property type [LineType] either STANDARD, SEMI_LOOP, or LOOP.
- * @property termini All the terminus stations of the line.
+ * @property termini Terminus [Station] list of the line.
  */
-@Entity(name = "line")
-class Line(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+class Line(val id: Int, val name: String, val type: LineType, val termini: List<Station>) {
+    companion object {
+        internal fun fromDAO(dao: LineDAO): Line {
+            return Line(
+                dao.id.value,
+                dao.name,
+                dao.type,
+                transaction { 
+                    dao.termini.with(TerminusDAO::line)
+                }.map { Station.fromDAO(it) }
+            )
+        }
 
-    @Column(length = 16, nullable = false)
-    var name: String? = null,
+        fun get(id: Int): Line? {
+            return transaction {
+                LineDAO.findById(id)
+            }?.let { fromDAO(it) }
+        }
+    }
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    val type: LineType? = LineType.STANDARD,
-
-    @ManyToMany
-    @JoinTable(
-        name = "terminus",
-        joinColumns = [JoinColumn(name = "line_id")],
-        inverseJoinColumns = [JoinColumn(name = "station_id")]
-    )
-    val termini: Set<Station?> = setOf(),
-) {
     /**
      * Get the terminus Station object from input station ID.
-     * @param station_id Station ID of terminus station of line.
+     * @param stationId Station ID of terminus station of line.
      * @return [Station] object if ID is a valid terminus of line, otherwise null
      */
-    fun getTerminus(station_id: Int): Station? {
-        return this.termini.find { it?.id?.compareTo(station_id) == 0 }
+    fun getTerminus(stationId: Int): Station? {
+        return this.termini.find { it.id == stationId }
     }
 }

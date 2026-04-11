@@ -1,6 +1,14 @@
 export const EN_TEXT = {
     "title": {
-        "translation": "The Knowledge (Paris Metro)"
+        "translation": "The Knowledge"
+    },
+
+    "subtitle": {
+        "translation": "Paris Metro"
+    },
+
+    "progress-title": {
+        "translation": "Progress"
     },
     
     "take-line": {

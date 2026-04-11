@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseCookie
 
+
 internal const val COOKIE_AGE: Long = 60 * 60 * 24 * 30 * 6
+
 
 internal fun createCookie(lang: String): ResponseCookie {
     val cookie: ResponseCookie = ResponseCookie.from("lang", lang)
@@ -18,14 +20,16 @@ internal fun createCookie(lang: String): ResponseCookie {
     return cookie
 }
 
+
 /**
  * From an incoming request, searches for a cookie with the "lang" parameter. If a match is found it is returned.
  */
 fun findCookie(request: HttpServletRequest): Cookie? {
     val cookies = request.cookies ?: return null
-    val cookie: Cookie? = cookies.firstOrNull { it.name == "lang" } ?: return null
+    val cookie: Cookie? = cookies.firstOrNull { it.name == "lang" }
     return cookie;
 }
+
 
 /**
  * Creates a new cookie to send in the header response.

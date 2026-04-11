@@ -22,7 +22,7 @@ public class KnowledgeUniqueCasesTests {
     @Test
     void testStepVerificationWrongBranchLine() throws Exception {
         // line 7, Maison Blanche -> Villejuif-Paul Vailiant, direction Ivry[wrong]
-        mvc.perform(get("/maison/verify/line/7/origin/20/destination/23/direction/29"))
+        mvc.perform(get("/maison/verify/line/7/origin/167/destination/316/direction/161"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(-1))
                 .andExpect(jsonPath("$.message").value("wrong-branch"));
@@ -33,10 +33,10 @@ public class KnowledgeUniqueCasesTests {
         // line 7bis, Jaurès -> Botzaris, direction Louis Blanc [irrelevant]
         // This path goes away from Louis Blanc, but should not count since there is a
         // loop.
-        mvc.perform(get("/maison/verify/line/5/origin/13/destination/16/direction/12"))
+        mvc.perform(get("/maison/verify/line/22/origin/127/destination/34/direction/153"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(0))
-                .andExpect(jsonPath("$.origin_id").value(13));
+                .andExpect(jsonPath("$.origin_id").value(127));
     }
 
     @Test
@@ -44,17 +44,17 @@ public class KnowledgeUniqueCasesTests {
         // line 7bis, Places des Fêtes -> Botzaris, direction Louis Blanc [irrelevant]
         // Place des Fêtes is INCREASING and Botzaris has a lower position.
         // But in a loop rider could wait until loop returns to Botzaris.
-        mvc.perform(get("/maison/verify/line/5/origin/17/destination/16/direction/12"))
+        mvc.perform(get("/maison/verify/line/22/origin/212/destination/127/direction/153"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(0))
-                .andExpect(jsonPath("$.origin_id").value(17));
+                .andExpect(jsonPath("$.origin_id").value(212));
     }
 
     @Test
     void testStepVerificationSemiLoopOneWay() throws Exception {
         // line 7bis, Danube -> Places des Fêtes, direction Louis Blanc [irrelevant]
         // Wrong way. Needs to go to a BIDIRECTIONAL station first to restart the loop.
-        mvc.perform(get("/maison/verify/line/5/origin/19/destination/17/direction/12"))
+        mvc.perform(get("/maison/verify/line/22/origin/83/destination/212/direction/153"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(-1))
                 .andExpect(jsonPath("$.message").value("wrong-way-one-way"));
@@ -62,17 +62,17 @@ public class KnowledgeUniqueCasesTests {
 
     @Test
     void testStepVerificationSuccessOneWay() throws Exception {
-        // line 10, Boulogne -> Mirabeau, direction Javel
-        mvc.perform(get("/maison/verify/line/10/origin/34/destination/37/direction/30"))
+        // line 10, Boulogne -> Mirabeau, direction Gare d'Austerlitz
+        mvc.perform(get("/maison/verify/line/10/origin/36/destination/182/direction/109"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(0))
-                .andExpect(jsonPath("$.origin_id").value(34));
+                .andExpect(jsonPath("$.origin_id").value(36));
     }
 
     @Test
     void testStepVerificationOneWayWrongDirection() throws Exception {
-        // line 10: Boulogne -> Église d'Auteuil, direction Javel
-        mvc.perform(get("/maison/verify/line/10/origin/34/destination/31/direction/30"))
+        // line 10: Boulogne -> Église d'Auteuil, direction Gare d'Austerlitz
+        mvc.perform(get("/maison/verify/line/10/origin/36/destination/92/direction/109"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(-1))
                 .andExpect(jsonPath("$.message").value("wrong-way-one-way"));
@@ -80,20 +80,20 @@ public class KnowledgeUniqueCasesTests {
 
     @Test
     void testStepVerificationSuccessTunnel() throws Exception {
-        // line 12: Opéra -> Madeleine, direction Madeleine
+        // line 12: Opéra -> Madeleine, direction Mairie d'Issy
         // Rider can connect to 12 via tunnels through Havre Caumartin to Saint-Lazare
         // Return value is station ID for Saint-Lazare
-        mvc.perform(get("/maison/verify/line/12/origin/38/destination/43/direction/43"))
+        mvc.perform(get("/maison/verify/line/12/origin/196/destination/158/direction/160"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(0))
-                .andExpect(jsonPath("$.origin_id").value(42));
+                .andExpect(jsonPath("$.origin_id").value(280));
     }
 
     @Test
     void testStepVerificationWrongLineWithTunnel() throws Exception {
         // line 2: Opéra -> Madeleine, direction Nation
         // Opéra is connected to a tunnel network but not to line 2
-        mvc.perform(get("/maison/verify/line/2/origin/38/destination/43/direction/5"))
+        mvc.perform(get("/maison/verify/line/2/origin/196/destination/158/direction/189"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(-1))
                 .andExpect(jsonPath("$.message").value("no-tunnel-to-line"));
@@ -101,11 +101,11 @@ public class KnowledgeUniqueCasesTests {
 
     @Test
     void testStepVerificationSuccessTunnelToDestination() throws Exception {
-        // line 9: Opéra -> Havre Caumartin, direction Saint-Augustin
+        // line 9: Opéra -> Havre Caumartin, direction Pont de Sevres
         // User tunnels from Opéra and arrives at Havre Caumartin
-        mvc.perform(get("/maison/verify/line/9/origin/38/destination/40/direction/41"))
+        mvc.perform(get("/maison/verify/line/9/origin/196/destination/119/direction/219"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(0))
-                .andExpect(jsonPath("$.origin_id").value(40));
+                .andExpect(jsonPath("$.origin_id").value(119));
     }
 }
