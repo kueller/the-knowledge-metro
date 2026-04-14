@@ -68,6 +68,8 @@ body {
 .page {
     position: relative;
     min-height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
 }
 
 .content-wrap {
@@ -214,6 +216,34 @@ body {
     padding-top: 30px;
     padding-bottom: 15px;
     font-weight: bold;
+    max-height: 35px;
+}
+
+.progress-list {
+    text-align: center;
+    font-size: var(--font-size-smaller);
+    font-weight: bold;
+    overflow-y: scroll;
+}
+
+.progress-list p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.progress-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-image: url(/svg/lignes.svg);
+    background-size: auto 100%;
+    border-radius: 50%;
+    border-width: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .info-overlay {
@@ -297,6 +327,7 @@ body {
     padding: 15px;
     line-height: 1.6;
     align-self: center;
+    overflow: hidden;
 }
 
 .game-content .start-dest {
@@ -483,6 +514,8 @@ body {
         text-align: left;
     }
 
+    .progress-list { max-height: calc(100vh - 80px - 15px - 40px - 20px); }
+
     .title-text h1 { 
         font-size: var(--font-size-title-small); 
         margin-top: 0px;
@@ -602,6 +635,8 @@ body {
         text-align: right;
         font-size: var(--font-size-final);
     }
+
+    .progress-window .progress-list { max-height: calc(100% - 80px - 15px); }
 
     .title-text h1 { margin-top: 10px; }
 }

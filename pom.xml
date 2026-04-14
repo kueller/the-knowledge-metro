@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.glitch</groupId>
 	<artifactId>knowledge</artifactId>
-	<version>0.6.7</version>
+	<version>0.7.0</version>
 	<name>knowledge</name>
 	<description/>
 	<url/>
@@ -111,6 +111,8 @@
 	</dependencies>
 
 	<build>
+		<sourceDirectory>src/main/kotlin</sourceDirectory>
+		<testSourceDirectory>src/test/kotlin</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -119,7 +121,7 @@
 				<executions>
 					<execution>
 						<id>css-minify</id>
-						<phase>prepare-package</phase>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
@@ -136,7 +138,7 @@
 					</execution>
 					<execution>
 						<id>js-rollup</id>
-						<phase>prepare-package</phase>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
@@ -156,7 +158,7 @@
 					</execution>
 					<execution>
 						<id>js-minify</id>
-						<phase>prepare-package</phase>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
@@ -197,6 +199,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>${start-class}</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

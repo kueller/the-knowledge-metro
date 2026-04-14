@@ -2056,6 +2056,7 @@ class KnowledgeGameConfig {
     final_id = 0;
     direction_id = 0;
     line_id = 0;
+    prev_line_id = 0;
 
     current_step = null;
     prev_step = null;
@@ -2211,6 +2212,46 @@ function addI18NTextToContainer(type, key, container, replace = []) {
 }
 
 
+function createProgressLineIcon(line_id) {
+    let line_shift = LINES_IN_ORDER.indexOf(line_id);
+
+    const icon = document.createElement("img");
+    icon.className = "progress-icon";
+    icon.src = "./img/pixel.gif";
+    icon.width = "1px";
+    icon.height = "1px";
+    icon.style.backgroundPosition = -1 * 18 * line_shift + "px 0";    
+
+    return icon;
+}
+
+
+function createAndAddProgressRow(progress_list, line_id, station_id) {
+    const p = document.createElement("p");
+
+    if (line_id > 0) {
+        const icon = createProgressLineIcon(line_id);
+        p.appendChild(icon);
+    } 
+
+    const row = document.createElement("span");
+    row.textContent = STATIONS[station_id - 1].name;
+    p.appendChild(row);
+    progress_list.appendChild(p);
+
+    return p;
+}
+
+
+function createAndAddProgressArrow(progress_list) {
+    const arrow = document.createElement("p");
+    arrow.textContent = "↓";
+    progress_list.appendChild(arrow);
+
+    return arrow;
+}
+
+
 function animate_shiftSteps(current_step, prev_step, next_step) {
     // Copy references to avoid timer issues.
     let current = current_step;
@@ -2271,6 +2312,8 @@ function animate_nextRound(new_origin_id) {
         timeout_ms = 4000;
     }
 
+    appendProgress(new_origin_id);
+
     setTimeout(
         function () {
             search_box.value = "";
@@ -2310,6 +2353,59 @@ function animate_finalMessage(message, refresh, tunnel = null) {
 }
 
 
+function animate_appendProgress(new_elements) {
+    new_elements.forEach((e) => e.style.opacity = "0");
+
+    for (let i = 0; i < new_elements.length; i++) {
+        setTimeout(
+            function() {
+                new_elements[i].style.opacity = "1";
+                new_elements[i].animate(
+                    [
+                        { opacity: "0" },
+                        { opacity: "1" }
+                    ],
+                    { duration: 200 }
+                );
+            },
+            200 * i
+        );
+    }
+}
+
+
+function appendProgress(new_origin_id) {
+    const progress_list = document.getElementById("progress-list");
+
+    let new_elements = [];
+
+    const origin_row = createAndAddProgressRow(progress_list, GameConfig.prev_line_id, GameConfig.origin_id);
+    const arrow_origin = createAndAddProgressArrow(progress_list);
+
+    new_elements.push(origin_row);
+    new_elements.push(arrow_origin);
+
+    if (new_origin_id != GameConfig.origin_id) {
+        const tunnel_row = createAndAddProgressRow(progress_list, GameConfig.line_id, new_origin_id);
+        const arrow_tunnel = createAndAddProgressArrow(progress_list);
+
+        new_elements.push(tunnel_row);
+        new_elements.push(arrow_tunnel);
+    }
+
+    const dest_row = createAndAddProgressRow(progress_list, GameConfig.line_id, GameConfig.destination_id);
+    dest_row.style.marginBottom = "15px";
+    new_elements.push(dest_row);
+
+    const divider = document.createElement("hr");
+    progress_list.appendChild(divider);
+    new_elements.push(divider);
+
+    animate_appendProgress(new_elements);
+    progress_list.scrollTop = progress_list.scrollHeight;
+}
+
+
 function transitionToSuccess(new_origin_id) {
     if (GameConfig.state != State.STATION) return;
 
@@ -2339,6 +2435,7 @@ function transitionToSuccess(new_origin_id) {
 
     setSearchBoxToFinalColor(search_box, Color.GREEN);
 
+    appendProgress(new_origin_id);
     animate_finalMessage(success, refresh);
 
     GameConfig.state = State.SUCCESS;
@@ -2379,9 +2476,11 @@ function transitionToLine() {
     let steps_container = document.getElementById("steps-container");
     let station_step = GameConfig.current_step;
 
+    let yshift = variable_yshift(30);
+
     const line_select = document.createElement("div");
     line_select.className = "step";
-    line_select.style.transform = "translateY(30px)";
+    line_select.style.transform = "translateY(" + yshift + "px)";
 
     const text_container = createI18NContainer(line_select);
     addI18NTextToContainer("span", "take-line", text_container);
@@ -2409,6 +2508,7 @@ function transitionToLine() {
     GameConfig.current_step = line_select;
 
     GameConfig.origin_id = GameConfig.destination_id;
+    GameConfig.prev_line_id = GameConfig.line_id;
     GameConfig.line_id = 0;
     GameConfig.destination_id = 0;
 
@@ -2422,10 +2522,7 @@ function transitionToStation(direction_id) {
 
     let steps_container = document.getElementById("steps-container");
 
-    let yshift = 30;
-    if (GameConfig.state == State.LINE) {
-        yshift = variable_yshift(yshift);
-    }
+    let yshift = variable_yshift(30);
 
     const station_select = document.createElement("div");
     station_select.className = "step";
