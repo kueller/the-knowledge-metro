@@ -46,7 +46,8 @@
     --font-size-challenge: 27px;
     --font-size-final: 23px;
     --font-size-normal: 19px;
-    --font-size-small: 12px;
+    --font-size-smaller: 17px;
+    --font-size-small: 15px;
 
     --game-width: 750px;
     --game-width-small: 600px;
@@ -60,20 +61,23 @@ body {
     margin: 0px;
 }
 
+.hidden {
+    opacity: 0;
+}
+
 .page {
     position: relative;
     min-height: 100dvh;
 }
 
 .content-wrap {
-    padding-bottom: 4rem;
+    flex-direction: row;
 }
 
 .title-bar {
     background-color: var(--color-white);
     color: var(--color-font);
     line-height: 1.6;
-    min-width: 250px;
     margin: 0px;
 }
 
@@ -90,14 +94,11 @@ body {
 }
 
 .title-text h1 {
-    font-size: var(--font-size-title-large);
-    margin-top: 10px;
     margin-bottom: 0px;
     line-height: 1.0;
 }
 
 .title-text small {
-    font-size: var(--font-size-subtitle-large);
     color: var(--color-dark-gray)
 }
 
@@ -107,7 +108,7 @@ body {
     margin-top: 10px;
     margin-left: 15px;
     padding-top: 10px;
-    padding-right: 15px;
+    max-height: 24px;
     align-self: center;
     font-size: 0px;
 }
@@ -157,37 +158,149 @@ body {
     color: var(--color-white);
 }
 
+.menu-title-container {
+    white-space: nowrap;
+    margin-top: 10px;
+    margin-left: 15px;
+    padding-top: 10px;
+    max-height: 24px;
+    align-self: center;
+    font-size: 0px;
+}
+
+.info-progress-container {
+    float: left;
+    margin-left: 15px;
+}
+
+.menu-button {
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+    padding: 0;
+    line-height: 15px;
+    font-weight: bold;
+    text-align: center;
+    font-size: var(--font-size-small);
+    color: var(--color-dark-blue);
+    background-color: var(--color-white);
+    border: 2px solid var(--color-dark-blue);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.menu-button:hover {
+    background-color: lightgray;
+}
+
 .progress-window {
+    display: inline;
     background-color: var(--color-white);
     color: var(--color-font);
-    margin-top: 0px;
-    margin-bottom: 0px;
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 20px;
-    height: calc(100% - 30px);
+    padding-right: 20px;
+    transition: top 0.3s;
+}
+
+.progress-window.active {
+    pointer-events: all;
+    opacity: 1;
+    top: 0%;
 }
 
 .progress-window .progress-title-wrap {
     padding-top: 30px;
     padding-bottom: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
-    text-align: right;
-    font-size: var(--font-size-challenge);
     font-weight: bold;
+}
+
+.info-overlay {
+    position: absolute;
+    display: flex;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    padding: 20px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.info-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.info-box {
+    position: relative;
+    background: var(--color-white);
+    padding: 25px;
+    margin: auto;
+    max-width: 500px;
+    width: 90dvh;
+    border-radius: 15px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-weight: normal;
+    color: var(--color-font);
+    box-shadow: 3px 3px 5px 5px dimgray;
+}
+
+.info-overlay.active .info-box {
+    opacity: 1;
+}
+
+.info-box h1 {
+    text-align: center;
+    margin-top: 0px;
+    font-size: var(--font-size-final);
+}
+
+.info-box span, a {
+    text-align: right;
+    font-size: var(--font-size-smaller);
+}
+
+.close {
+    display: block;
+    position: absolute;
+    align-items: center;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background: none;
+    padding: 2px;
+    width: 32px;
+    height: 32px;
+    font-weight: lighter;
+    font-size: var(--font-size-title-large);
+    text-align: center;
+    cursor: pointer;
+    line-height: 10px;
+    padding-top: 0px;
+    border-radius: 50%;
+}
+
+.close:hover {
+    background-color: darkgray;
 }
 
 .game-content {
     margin: auto;
     max-width: var(--game-width);
     text-align: left;
+    height: calc(100% - 30px);
     color: var(--color-font);
     padding: 15px;
     line-height: 1.6;
+    align-self: center;
 }
 
 .game-content .start-dest {
+    display: inline-block;
     padding-top: 30px;
     padding-bottom: 30px;
     padding-left: 0px;
@@ -204,9 +317,9 @@ body {
 }
 
 .steps-container .step {
+    position: absolute;
     opacity: 1;
     scale: 1;
-    position: absolute;
     width: calc(var(--game-width) - 30px);
     max-width: calc(var(--game-width) - 30px);
     transform-origin: top left;
@@ -272,6 +385,7 @@ body {
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 15px;
+    cursor: pointer;
 }
 
 .metro-button:hover:enabled {
@@ -281,6 +395,7 @@ body {
 
 .metro-button:disabled {
     transform: scale(1.0);
+    cursor: default;
 }
 
 .steps-container .direction-button-wrap {
@@ -301,6 +416,7 @@ body {
     text-align: center;
     font-size: var(--font-size-normal);
     font-weight: bold;
+    cursor: pointer;
     box-shadow: 3px 3px 3px 1px gray;
 }
 
@@ -314,9 +430,18 @@ body {
     box-shadow: 3px 3px 5px 2px gray, 1px 1px gray inset;
 }
 
+.direction-button:disabled {
+    cursor: default;
+}
+
 @media only screen and (min-width: 320px) {
-    .title-bar {
-        width: 100%;
+    .content-wrap { display: inline; }
+
+    .title-bar { width: 100%; }
+
+    .title-wrap {
+        justify-content: space-between;
+        padding-right: 15px;
     }
 
     .language-select-container { 
@@ -325,13 +450,36 @@ body {
         align-self: center; 
     }
 
-    .progress-window { 
-        display: none; 
-        margin: auto;
-        width: 100%;
+    .info-progress-container { display: none; }
+
+    .menu-title-container {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
     }
 
+    .progress-window { 
+        position: absolute;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 0px;
+        margin-bottom: 20px;
+        width: calc(100% - 40px - 40px);
+        height: auto;
+        max-height: calc(100% - 40px - 20px);
+        max-width: 580px;
+        top: -100%;
+        opacity: 0; 
+        pointer-events: none;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        box-shadow: 0px 0px 20px 0px gray;
+    }
+
+    .progress-window .close { display: block; }
+
     .progress-window .progress-title-wrap {
+        font-size: var(--font-size-challenge);
         text-align: left;
     }
 
@@ -342,7 +490,11 @@ body {
 
     .title-text small { font-size: var(--font-size-subtitle-small); }
 
-    .game-content { max-width: 100%; }
+    .game-content { 
+        display: block;
+        max-width: 100%;
+    }
+
     .game-content .step {
         width: calc(100% - 30px); 
         max-width: calc(100% - 30px); 
@@ -355,8 +507,6 @@ body {
 }
 
 @media only screen and (min-width: 600px) {
-    .progress-window { width: var(--game-width-small); }
-
     .game-content { max-width: var(--game-width-small); }
     .game-content .step { 
         width: calc(var(--game-width-small) - 30px); 
@@ -364,11 +514,17 @@ body {
     }
 }
 
+@media only screen and (min-width: 660px) {
+    .progress-window {
+        left: 50%;
+        transform: translateX(calc((-580px - 40px - 40px) / 2));
+    }
+}
+
 @media only screen and (min-width: 800px) {
-    .progress-window { width: var(--game-width); }
 
     .game-content { 
-        max-width: var(--game-width); 
+        max-width: var(--game-width);
         min-width: var(--game-width);
     }
 
@@ -379,35 +535,85 @@ body {
     }
 }
 
-@media only screen and (min-width: 1250px) {
+@media only screen and (min-width: 1150px) {
+    .content-wrap { 
+        display: flex; 
+        flex-direction: row;
+        height: 100dvh;
+    }
+
     .title-bar {
-        position: absolute;
+        display: inline-block;
         margin-right: 20px;
         /*(  ( (100% - game-width[750px]) - game-padding[2x15] ) / 2 ) - padding-left[20] - margin-right[20] */
         width: calc(((100% - var(--game-width) - 30px) / 2) - 20px - 20px);
+        min-width: 210px;
         height: 100%;
     }
 
+    .title-wrap {
+        justify-content: flex-start;
+        padding-right: 0px;
+    }
+
+    .menu-title-container { display: none; }
+
+    .info-progress-container {
+        display: inline-block;
+        margin-left: 0px;
+    }
+
+    .game-content { 
+        display: inline-block;
+        max-width: var(--game-width); 
+        min-width: calc(var(--game-width) - 30px);
+    }
+
+    .step { 
+        width: calc(var(--game-width) - 30px); 
+        max-width: calc(var(--game-width) - 30px); 
+        min-width: calc(var(--game-width) - 30px); 
+    }
+
     .progress-window {
-        display: inline;
-        position: absolute;
-        padding-right: 20px;
+        position: static;
         margin-left: 20px;
         /*(  ( (100% - game-width[750px]) - game-padding[2x15] ) / 2 ) - margin-left[20] - padding-right[20] */
         width: calc(((100% - var(--game-width) - 30px) / 2) - 20px - 20px);
+        min-width: 120px;
+        max-width: 100%;
+        height: calc(100% - 30px);
+        max-height: calc(100% - 30px);
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-right: 0;
         top: 0;
+        left: 0;
         right: 0;
+        opacity: 1;
+        pointer-events: all;
+        box-shadow: none;
+        transform: translate(0%, 0%);
     }
+
+    .progress-window .close { display: none; }
 
     .progress-window .progress-title-wrap {
         text-align: right;
+        font-size: var(--font-size-final);
     }
 
-    .title-text h1 { 
-        font-size: var(--font-size-title-large); 
-        margin-top: 10px;
+    .title-text h1 { margin-top: 10px; }
+}
+
+@media only screen and (min-width: 1370px) {
+    .title-wrap { min-width: 250px; }
+
+    .progress-window .progress-title-wrap {
+        font-size: var(--font-size-challenge);
+        min-width: 150px;
     }
 
+    .title-text h1 { font-size: var(--font-size-title-large); }
     .title-text small { font-size: var(--font-size-subtitle-large); }
-
 }

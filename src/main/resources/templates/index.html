@@ -33,17 +33,15 @@
                                 <span class="language-radio-button">en</span>
                             </label>
                         </span>
+                        <span class="menu-title-container">
+                            <button id="progress-display" class="menu-button" type="button">→</button>
+                        </span>
+                        <span class="menu-title-container">
+                            <button id="info-title" class="menu-button" type="button">i</button>
+                        </span>
                     </div>
                 </div>
-                
-                <div class="progress-window">
-                    <div class="progress-title-wrap">
-                        <span class="progress-title"></span>
-                    </div>
-                    <div class="progress-list">
-                        <hr>
-                    </div>
-                </div>
+
                 <div id="game-content" class="game-content">
                     <div id="start-dest" class="start-dest">
                         <span th:id="'origin-' + ${origin.id}" th:text="${origin.name}"></span>
@@ -73,6 +71,30 @@
                             <button class="metro-button" type="button" style="background-position: -560px 0;" id="13"></button>
                             <button class="metro-button" type="button" style="background-position: -600px 0;" id="14"></button>
                         </div>
+                    </div>
+                </div>
+                
+                <div id="progress-window" class="progress-window">
+                    <button id="progress-close" class="close">&times;</button>
+                    <div class="progress-title-wrap">
+                        <span class="info-progress-container">
+                            <button id="info-progress" class="menu-button" type="button">i</button>
+                        </span>
+                        <span class="progress-title"></span>
+                    </div>
+                    <div class="progress-list">
+                        <hr>
+                    </div>
+                </div>
+                <div id="info-overlay" class="hidden">
+                    <div class="info-box">
+                        <h1>The Knowledge</h1>
+                        <p>
+                            <span class="info1"></span>
+                            <a class="info2" href="https://youtu.be/u7gp8KBP7ak?si=HPohxel2zo2hhiN5" target="_blank"></a>
+                            <span class="info3"></span>
+                        </p>
+                        <button id="info-close" class="close">&times;</button>
                     </div>
                 </div>
             </div>

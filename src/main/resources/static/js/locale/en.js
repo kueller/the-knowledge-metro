@@ -65,5 +65,17 @@ export const EN_TEXT = {
 
     "wrong-way-one-way": {
         "translation": "❌ Can't go that way from $origin"
+    },
+
+    "info1": {
+        "translation": "Inspired by the famously challenging"
+    },
+
+    "info2": {
+        "translation": "course to become a London taxi driver."
+    },
+
+    "info3": {
+        "translation": "You are given two metro stations. Try to find a valid path to travel between them. No maps, no mistakes. Test how well you know how to navigate the metro."
     }
 };

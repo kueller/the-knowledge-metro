@@ -371,7 +371,7 @@ export const STATIONS = [
       },
       {
           "id": 75,
-          "name": "Court Saint-Émilion",
+          "name": "Cour Saint-Émilion",
           "tags": []
       },
       {

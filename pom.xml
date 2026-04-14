@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.glitch</groupId>
 	<artifactId>knowledge</artifactId>
-	<version>0.5.0</version>
+	<version>0.6.7</version>
 	<name>knowledge</name>
 	<description/>
 	<url/>
@@ -30,6 +30,7 @@
 	<properties>
 		<java.version>25</java.version>
 		<kotlin.version>2.3.20</kotlin.version>
+		<serialization.version>1.11.0</serialization.version>
 		<start-class>com.glitch.knowledge.KnowledgeApplicationKt</start-class>
 		<skipMinify>false</skipMinify>
 		<project.static>${project.basedir}/src/main/resources/static</project.static>
@@ -47,10 +48,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -85,12 +82,12 @@
 			<artifactId>exposed-dao</artifactId>
 			<version>1.2.0</version>
 		</dependency>
-
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.jetbrains.kotlinx</groupId>
+			<artifactId>kotlinx-serialization-json</artifactId>
+			<version>${serialization.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-restclient-test</artifactId>
@@ -114,8 +111,6 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>src/main/kotlin</sourceDirectory>
-		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -186,6 +181,18 @@
 				<artifactId>kotlin-maven-plugin</artifactId>
 				<version>${kotlin.version}</version>
 				<extensions>true</extensions>
+				<configuration>
+					<compilerPlugins>
+						<plugin>kotlinx-serialization</plugin>
+					</compilerPlugins>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.jetbrains.kotlin</groupId>
+						<artifactId>kotlin-maven-serialization</artifactId>
+						<version>${kotlin.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

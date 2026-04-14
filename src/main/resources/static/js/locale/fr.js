@@ -65,5 +65,17 @@ export const FR_TEXT = {
 
     "wrong-way-one-way": {
         "translation": "❌ Cette direction n'est pas desservie par $origin"
+    },
+
+    "info1": {
+        "translation": "Inspirée par l'examen, célèbrement rigoureux,"
+    },
+
+    "info2": {
+        "translation": "pour devenir chauffeur du taxi londonien."
+    },
+
+    "info3": {
+        "translation": "Vous avez deux stations du métro. Essayez de trouver une itinéraire valide pour voyager de l'origine à la destinatoin. Sans plan, et sans erreur. Testez votre connaissance du réseau du métro."
     }
 };

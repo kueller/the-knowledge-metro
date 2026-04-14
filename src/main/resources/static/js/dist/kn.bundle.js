@@ -67,6 +67,18 @@ const FR_TEXT = {
 
     "wrong-way-one-way": {
         "translation": "❌ Cette direction n'est pas desservie par $origin"
+    },
+
+    "info1": {
+        "translation": "Inspirée par l'examen, célèbrement rigoureux,"
+    },
+
+    "info2": {
+        "translation": "pour devenir chauffeur du taxi londonien."
+    },
+
+    "info3": {
+        "translation": "Vous avez deux stations du métro. Essayez de trouver une itinéraire valide pour voyager de l'origine à la destinatoin. Sans plan, et sans erreur. Testez votre connaissance du réseau du métro."
     }
 };
 
@@ -137,6 +149,18 @@ const EN_TEXT = {
 
     "wrong-way-one-way": {
         "translation": "❌ Can't go that way from $origin"
+    },
+
+    "info1": {
+        "translation": "Inspired by the famously challenging"
+    },
+
+    "info2": {
+        "translation": "course to become a London taxi driver."
+    },
+
+    "info3": {
+        "translation": "You are given two metro stations. Try to find a valid path to travel between them. No maps, no mistakes. Test how well you know how to navigate the metro."
     }
 };
 
@@ -751,7 +775,7 @@ const STATIONS = [
       },
       {
           "id": 75,
-          "name": "Court Saint-Émilion",
+          "name": "Cour Saint-Émilion",
           "tags": []
       },
       {
@@ -2046,7 +2070,6 @@ const GameConfig = new KnowledgeGameConfig();
 
 function set_language(override_lang = null) {
     if (override_lang != null) {
-        console.log("new: " + override_lang);
         document.documentElement.lang = override_lang;
     }
 
@@ -2102,6 +2125,25 @@ function init() {
         "change",
         function(e) { set_language(e.target.value); }
     );
+
+    const progress_display_btn = document.getElementById("progress-display");
+    const progress_close_btn = document.getElementById("progress-close");
+
+    progress_display_btn.addEventListener("click", event_progressDisplayClicked);
+    progress_close_btn.addEventListener("click", event_progressCloseClicked);
+
+    const info_title_btn = document.getElementById("info-title");
+    const info_progress_btn = document.getElementById("info-progress");
+
+    info_title_btn.addEventListener("click", event_infoButtonDisplayClicked);
+    info_progress_btn.addEventListener("click", event_infoButtonDisplayClicked);
+
+    const info_overelay = document.getElementById("info-overlay");
+    const info_close_btn = document.getElementById("info-close");
+
+    info_overelay.className = "info-overlay";
+    info_overelay.addEventListener("click", event_infoCloseClicked);
+    info_close_btn.addEventListener("click", event_infoCloseClicked);
 
     GameConfig.line_style_width = parseInt(getComputedStyle(metro_buttons[0]).width);
     GameConfig.current_step = document.getElementById("line-select");
@@ -2319,7 +2361,8 @@ function transitionToFailure(failure_reason) {
     );
     failure.style.marginBottom = "10px";
 
-    const refresh = addI18NTextToContainer("p", "refresh", text_container);
+    const refresh = addI18NTextToContainer("a", "refresh", text_container);
+    refresh.href = "./";
     refresh.style.color = Color.DARK_GRAY;
     refresh.style.marginTop = "10px";
 
@@ -2589,6 +2632,32 @@ function event_directionClicked(event, direction) {
     }
 
     transitionToStation(direction_id);
+}
+
+
+function event_progressDisplayClicked() {
+    const progress = document.getElementById("progress-window");
+    progress.classList.add("active");
+}
+
+
+function event_progressCloseClicked() {
+    const progress = document.getElementById("progress-window");
+    progress.classList.remove("active");
+}
+
+
+function event_infoButtonDisplayClicked() {
+    const overlay = document.getElementById("info-overlay");
+    overlay.classList.add("active");
+}
+
+
+function event_infoCloseClicked(event) {
+    const overlay = document.getElementById("info-overlay");
+    if (event.target.id == "info-overlay" || event.target.id == "info-close") {
+        overlay.classList.remove("active");
+    }
 }
 
 
