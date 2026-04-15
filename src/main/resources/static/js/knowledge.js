@@ -5,7 +5,6 @@ import { STATIONS } from "./const/stations.js";
 
 import Fuse from "https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.mjs";
 
-
 const State = {
     LINE: 0,
     DIRECTION: 1,
@@ -44,6 +43,7 @@ const FUSE_OPTIONS = {
     ]
 };
 
+
 const fuse = new Fuse(STATIONS, FUSE_OPTIONS);
 
 
@@ -67,7 +67,6 @@ class KnowledgeGameConfig {
 }
 
 const GameConfig = new KnowledgeGameConfig();
-
 
 
 function set_language(override_lang = null) {
@@ -128,11 +127,14 @@ function init() {
         function(e) { set_language(e.target.value); }
     )
 
+    const progress_overlay = document.getElementById("progress-overlay");
     const progress_display_btn = document.getElementById("progress-display");
     const progress_close_btn = document.getElementById("progress-close");
 
-    progress_display_btn.addEventListener("click", event_progressDisplayClicked);
+    progress_overlay.style.removeProperty("opacity");
+    progress_overlay.addEventListener("click", event_progressCloseClicked);
     progress_close_btn.addEventListener("click", event_progressCloseClicked);
+    progress_display_btn.addEventListener("click", event_progressDisplayClicked);
 
     const info_title_btn = document.getElementById("info-title");
     const info_progress_btn = document.getElementById("info-progress");
@@ -143,7 +145,7 @@ function init() {
     const info_overelay = document.getElementById("info-overlay");
     const info_close_btn = document.getElementById("info-close");
 
-    info_overelay.className = "info-overlay";
+    info_overelay.style.removeProperty("opacity");
     info_overelay.addEventListener("click", event_infoCloseClicked);
     info_close_btn.addEventListener("click", event_infoCloseClicked);
 
@@ -275,6 +277,7 @@ function animate_shiftSteps(current_step, prev_step, next_step) {
         { duration: 800 }
     );
 }
+
 
 function animate_invalidSearch() {
     let search_box = GameConfig.search_box;
@@ -649,6 +652,7 @@ function validate() {
         });
 }
 
+
 function stationSearch() {
     if (GameConfig.state != State.STATION) return;
 
@@ -701,6 +705,7 @@ function stationSearch() {
 
 }
 
+
 function event_metroLineClicked(event, line) {
     if (GameConfig.state != State.LINE) return;
 
@@ -735,13 +740,23 @@ function event_directionClicked(event, direction) {
 
 function event_progressDisplayClicked() {
     const progress = document.getElementById("progress-window");
+    progress.style.opacity = "1";
     progress.classList.add("active");
+
+    const overlay = document.getElementById("progress-overlay");
+    overlay.classList.add("active");
 }
 
 
-function event_progressCloseClicked() {
-    const progress = document.getElementById("progress-window");
-    progress.classList.remove("active");
+function event_progressCloseClicked(event) {
+    if (event.target.id == "progress-overlay" || event.target.id == "progress-close") {
+        const overlay = document.getElementById("progress-overlay");
+        const progress = document.getElementById("progress-window");
+        overlay.classList.remove("active");
+        progress.classList.remove("active");
+
+        setTimeout(() => { progress.style.removeProperty("opacity"); }, 300);
+    }
 }
 
 

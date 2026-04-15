@@ -35,6 +35,7 @@
     --color-background: #fefce9;
     --color-dark-gray: #7e8285;
     --color-dark-blue: #0b489f;
+    --color-red: #e81d2b;
 
     --color-font: #303030;
 
@@ -59,10 +60,6 @@ body {
     font-family: "l1_par-5_std_ws_z01", sans-serif;
     background-color: var(--color-background);
     margin: 0px;
-}
-
-.hidden {
-    opacity: 0;
 }
 
 .page {
@@ -93,11 +90,13 @@ body {
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px;
+    max-width: min-content;
 }
 
 .title-text h1 {
     margin-bottom: 0px;
     line-height: 1.0;
+    max-width: fit-content;
 }
 
 .title-text small {
@@ -109,8 +108,10 @@ body {
     white-space: nowrap;
     margin-top: 10px;
     margin-left: 15px;
+    margin-right: 15px;
     padding-top: 10px;
     max-height: 24px;
+    max-width: fit-content;
     align-self: center;
     font-size: 0px;
 }
@@ -118,7 +119,7 @@ body {
 .language-select-container .language-option-box {
     display: inline-block;
     padding: 0px;
-    max-width: 20px;
+    max-width: 28px;
     cursor: pointer;
     font-size: var(--font-size-small);
     font-weight: normal;
@@ -171,20 +172,18 @@ body {
 }
 
 .info-progress-container {
-    float: left;
+    display: flex;
+    margin-top: 5px;
     margin-left: 15px;
 }
 
 .menu-button {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 24px;
     width: 24px;
     padding: 0;
-    line-height: 15px;
-    font-weight: bold;
-    text-align: center;
-    font-size: var(--font-size-small);
-    color: var(--color-dark-blue);
     background-color: var(--color-white);
     border: 2px solid var(--color-dark-blue);
     border-radius: 50%;
@@ -193,6 +192,31 @@ body {
 
 .menu-button:hover {
     background-color: lightgray;
+}
+
+.menu-button img {
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+}
+
+.overlay {
+    position: absolute;
+    display: flex;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    align-items: center;
+    padding: 20px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    backdrop-filter: blur(2px);
 }
 
 .progress-window {
@@ -213,6 +237,9 @@ body {
 }
 
 .progress-window .progress-title-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding-top: 30px;
     padding-bottom: 15px;
     font-weight: bold;
@@ -246,24 +273,6 @@ body {
     margin-right: 10px;
 }
 
-.info-overlay {
-    position: absolute;
-    display: flex;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    align-items: center;
-    padding: 20px;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-}
-
-.info-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
 .info-box {
     position: relative;
     background: var(--color-white);
@@ -279,7 +288,7 @@ body {
     box-shadow: 3px 3px 5px 5px dimgray;
 }
 
-.info-overlay.active .info-box {
+.overlay.active .info-box {
     opacity: 1;
 }
 
@@ -295,27 +304,36 @@ body {
 }
 
 .close {
-    display: block;
+    display: flex;
     position: absolute;
     align-items: center;
+    justify-content: center;
     top: 10px;
     right: 15px;
     border: none;
     background: none;
-    padding: 2px;
     width: 32px;
     height: 32px;
-    font-weight: lighter;
-    font-size: var(--font-size-title-large);
-    text-align: center;
     cursor: pointer;
-    line-height: 10px;
-    padding-top: 0px;
     border-radius: 50%;
 }
 
+.close svg {
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+}
+
+.close svg path { 
+    fill: var(--color-font); 
+}
+
 .close:hover {
-    background-color: darkgray;
+    background-color: var(--color-red);
+}
+
+.close:hover svg path {
+    fill: var(--color-white);
 }
 
 .game-content {
@@ -468,7 +486,10 @@ body {
 @media only screen and (min-width: 320px) {
     .content-wrap { display: inline; }
 
-    .title-bar { width: 100%; }
+    .title-bar { 
+        width: 100%; 
+        box-shadow: 0px -5px 9px 0px gray;
+    }
 
     .title-wrap {
         justify-content: space-between;
@@ -504,6 +525,7 @@ body {
         pointer-events: none;
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
+        z-index: 1000;
         box-shadow: 0px 0px 20px 0px gray;
     }
 
@@ -519,6 +541,7 @@ body {
     .title-text h1 { 
         font-size: var(--font-size-title-small); 
         margin-top: 0px;
+        white-space: nowrap;
     }
 
     .title-text small { font-size: var(--font-size-subtitle-small); }
@@ -582,12 +605,15 @@ body {
         width: calc(((100% - var(--game-width) - 30px) / 2) - 20px - 20px);
         min-width: 210px;
         height: 100%;
+        box-shadow: -4px 0px 9px 0px gray;
     }
 
     .title-wrap {
         justify-content: flex-start;
         padding-right: 0px;
     }
+
+    .title-text h1 { margin-top: 10px; white-space: normal; }
 
     .menu-title-container { display: none; }
 
@@ -626,7 +652,11 @@ body {
         opacity: 1;
         pointer-events: all;
         box-shadow: none;
+        border-radius: 0;
         transform: translate(0%, 0%);
+        transition: none;
+        z-index: auto;
+        box-shadow: 4px 0px 9px 0px gray;
     }
 
     .progress-window .close { display: none; }
@@ -637,8 +667,6 @@ body {
     }
 
     .progress-window .progress-list { max-height: calc(100% - 80px - 15px); }
-
-    .title-text h1 { margin-top: 10px; }
 }
 
 @media only screen and (min-width: 1370px) {
@@ -650,5 +678,10 @@ body {
     }
 
     .title-text h1 { font-size: var(--font-size-title-large); }
+
     .title-text small { font-size: var(--font-size-subtitle-large); }
+}
+
+@media only screen and (min-width: 1510px) {
+    .title-text h1 { white-space: nowrap; }
 }

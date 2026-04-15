@@ -34,10 +34,14 @@
                             </label>
                         </span>
                         <span class="menu-title-container">
-                            <button id="progress-display" class="menu-button" type="button">→</button>
+                            <button id="progress-display" class="menu-button" type="button">
+                                <img th:src="@{/svg/arrow.svg}">
+                            </button>
                         </span>
                         <span class="menu-title-container">
-                            <button id="info-title" class="menu-button" type="button">i</button>
+                            <button id="info-title" class="menu-button" type="button">
+                                <img th:src="@{/svg/info.svg}">
+                            </button>
                         </span>
                     </div>
                 </div>
@@ -74,11 +78,16 @@
                     </div>
                 </div>
                 
+                <div id="progress-overlay" class="overlay" style="opacity: 0;"></div>
                 <div id="progress-window" class="progress-window">
-                    <button id="progress-close" class="close">&times;</button>
+                    <button id="progress-close" class="close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 12.7 12.7"><path fill="#373737" d="m1.836 11.352 4.159-5.57v.928l-3.96-5.363h1.45l1.572 2.17q.407.568.805 1.137L6.667 5.8h-.615q.416-.578.814-1.146t.815-1.137l1.582-2.17h1.43L6.734 6.71v-.938l4.132 5.58h-1.44l-1.81-2.473q-.398-.559-.786-1.099-.389-.54-.777-1.099h.616q-.398.56-.787 1.1-.388.54-.796 1.098l-1.819 2.473z" aria-label="x"/></svg>
+                    </button>
                     <div class="progress-title-wrap">
                         <span class="info-progress-container">
-                            <button id="info-progress" class="menu-button" type="button">i</button>
+                            <button id="info-progress" class="menu-button" type="button">
+                                <img th:src="@{/svg/info.svg}">
+                            </button>
                         </span>
                         <span class="progress-title"></span>
                     </div>
@@ -86,7 +95,7 @@
                         <hr>
                     </div>
                 </div>
-                <div id="info-overlay" class="hidden">
+                <div id="info-overlay" class="overlay" style="opacity: 0;">
                     <div class="info-box">
                         <h1>“The Knowledge”</h1>
                         <p>
@@ -94,7 +103,9 @@
                             <a class="info2" href="https://youtu.be/u7gp8KBP7ak?si=HPohxel2zo2hhiN5" target="_blank"></a>
                             <span class="info3"></span>
                         </p>
-                        <button id="info-close" class="close">&times;</button>
+                        <button id="info-close" class="close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 12.7 12.7"><path fill="#373737" d="m1.836 11.352 4.159-5.57v.928l-3.96-5.363h1.45l1.572 2.17q.407.568.805 1.137L6.667 5.8h-.615q.416-.578.814-1.146t.815-1.137l1.582-2.17h1.43L6.734 6.71v-.938l4.132 5.58h-1.44l-1.81-2.473q-.398-.559-.786-1.099-.389-.54-.777-1.099h.616q-.398.56-.787 1.1-.388.54-.796 1.098l-1.819 2.473z" aria-label="x"/></svg>
+                        </button>
                     </div>
                 </div>
             </div>
