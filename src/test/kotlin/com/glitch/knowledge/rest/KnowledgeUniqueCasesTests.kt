@@ -1,5 +1,8 @@
-package com.glitch.knowledge
+package com.glitch.knowledge.rest
 
+import com.glitch.knowledge.KnowledgeApplication
+import com.glitch.knowledge.testutil.lineMap
+import com.glitch.knowledge.testutil.readStationListJson
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -7,8 +10,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 
-
-@SpringBootTest
+@SpringBootTest(classes = [KnowledgeApplication::class])
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class KnowledgeUniqueCasesTests {

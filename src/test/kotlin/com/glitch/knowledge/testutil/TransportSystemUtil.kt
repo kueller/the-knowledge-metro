@@ -1,4 +1,4 @@
-package com.glitch.knowledge
+package com.glitch.knowledge.testutil
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

@@ -1,4 +1,4 @@
-package com.glitch.knowledge
+package com.glitch.knowledge.rest
 
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
