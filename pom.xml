@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.glitch</groupId>
 	<artifactId>knowledge</artifactId>
-	<version>0.8.0</version>
+	<version>0.9.1</version>
 	<name>knowledge</name>
 	<description/>
 	<url/>
@@ -129,10 +129,11 @@
 						<configuration>
 							<skip>${skipMinify}</skip>
 							<useMavenLogger>true</useMavenLogger>
-							<executable>csso</executable>
+							<executable>lightningcss</executable>
 							<arguments>
+								<argument>--minify</argument>
 								<argument>${project.static}/style/${css.filename}</argument>
-								<argument>--output</argument>
+								<argument>--output-file</argument>
 								<argument>${project.static}/style/${css.minName}</argument>
 							</arguments>
 						</configuration>

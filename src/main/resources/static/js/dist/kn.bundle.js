@@ -79,6 +79,22 @@ const FR_TEXT = {
 
     "info3": {
         "translation": "Vous avez deux stations du métro. Essayez de trouver une itinéraire valide pour voyager de l'origine à la destinatoin. Sans plan, et sans erreur. Testez votre connaissance du réseau du métro."
+    },
+
+    "info-button-alt": {
+        "translation": "Affichez des informations."
+    },
+
+    "close-button-alt": {
+        "translation": "Fermez."
+    },
+
+    "progress-button-alt": {
+        "translation": "Affichez votre progrès."
+    },
+
+    "line-alt": {
+        "translation": "Ligne $line."
     }
 };
 
@@ -161,6 +177,22 @@ const EN_TEXT = {
 
     "info3": {
         "translation": "You are given two metro stations. Try to find a valid path to travel between them. No maps, no mistakes. Test how well you know how to navigate the metro."
+    },
+
+    "info-button-alt": {
+        "translation": "Show information."
+    },
+
+    "close-button-alt": {
+        "translation": "Close."
+    },
+
+    "progress-button-alt": {
+        "translation": "Show progress."
+    },
+
+    "line-alt": {
+        "translation": "Line $line."
     }
 };
 
@@ -2020,6 +2052,7 @@ const Color = {
     DARK_GRAY: "#7e8285"
 };
 
+
 const LINES_IN_ORDER = [1, 2, 3, 21, 4, 5, 6, 7, 22, 8, 9, 10, 11, 12, 13, 14];
 
 
@@ -2069,6 +2102,24 @@ class KnowledgeGameConfig {
 const GameConfig = new KnowledgeGameConfig();
 
 
+function set_alt_text() {
+    const info_title = document.getElementById('info-title');
+    const info_prog = document.getElementById("info-progress");
+
+    info_title.children[0].alt = GameConfig.text["info-button-alt"].translation;
+    info_prog.children[0].alt = GameConfig.text["info-button-alt"].translation;
+
+    const progress = document.getElementById("progress-display");
+    progress.children[0].alt = GameConfig.text["progress-button-alt"].translation;
+
+    const lines = document.getElementsByClassName("metro-button");
+    for (let i = 0; i < lines.length; i++) {
+        let lineIndex = parseInt(lines[i].style.backgroundPositionX) / (GameConfig.line_style_width * -1);
+        lines[i].alt = GameConfig.text["line-alt"].translation.replace("$line", LINES[LINES_IN_ORDER[lineIndex]].name);
+    }
+}
+
+
 function set_language(override_lang = null) {
     if (override_lang != null) {
         document.documentElement.lang = override_lang;
@@ -2091,12 +2142,12 @@ function set_language(override_lang = null) {
             replaceI18NText(text_element, TEXT_REPLACEMENTS[game_text]);
         }
     }
+
+    set_alt_text();
 }
 
 
 function init() {
-    set_language();
-
     let start_dest = document.getElementById("start-dest");
     if (!start_dest.children[0].id.startsWith("origin"))
         return;
@@ -2105,6 +2156,7 @@ function init() {
     GameConfig.final_id = Number(start_dest.children[1].id.split("-")[1]);
 
     let metro_buttons = document.getElementsByClassName("metro-button");
+    GameConfig.line_style_width = parseInt(getComputedStyle(metro_buttons[0]).width);
     for (let i = 0; i < metro_buttons.length; i++) {
         let line_id = metro_buttons[i].id;
 
@@ -2149,9 +2201,10 @@ function init() {
     info_overelay.addEventListener("click", event_infoCloseClicked);
     info_close_btn.addEventListener("click", event_infoCloseClicked);
 
-    GameConfig.line_style_width = parseInt(getComputedStyle(metro_buttons[0]).width);
     GameConfig.current_step = document.getElementById("line-select");
     GameConfig.state = State.LINE;
+
+    set_language();
 }
 
 
@@ -2500,6 +2553,7 @@ function transitionToLine() {
         button.className = "metro-button";
         button.type = "button";
         button.style.backgroundPosition = -1 * GameConfig.line_style_width * i + "px 0";
+        button.alt = GameConfig.text["line-alt"].translation.replace("$line", LINES[line_id].name);
         button.onclick = function (e) { event_metroLineClicked(e, line_id); };
         line_select.appendChild(button);
     }

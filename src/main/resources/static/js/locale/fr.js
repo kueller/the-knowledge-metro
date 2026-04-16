@@ -77,5 +77,21 @@ export const FR_TEXT = {
 
     "info3": {
         "translation": "Vous avez deux stations du métro. Essayez de trouver une itinéraire valide pour voyager de l'origine à la destinatoin. Sans plan, et sans erreur. Testez votre connaissance du réseau du métro."
+    },
+
+    "info-button-alt": {
+        "translation": "Affichez des informations."
+    },
+
+    "close-button-alt": {
+        "translation": "Fermez."
+    },
+
+    "progress-button-alt": {
+        "translation": "Affichez votre progrès."
+    },
+
+    "line-alt": {
+        "translation": "Ligne $line."
     }
 };

@@ -77,5 +77,21 @@ export const EN_TEXT = {
 
     "info3": {
         "translation": "You are given two metro stations. Try to find a valid path to travel between them. No maps, no mistakes. Test how well you know how to navigate the metro."
+    },
+
+    "info-button-alt": {
+        "translation": "Show information."
+    },
+
+    "close-button-alt": {
+        "translation": "Close."
+    },
+
+    "progress-button-alt": {
+        "translation": "Show progress."
+    },
+
+    "line-alt": {
+        "translation": "Line $line."
     }
 };
