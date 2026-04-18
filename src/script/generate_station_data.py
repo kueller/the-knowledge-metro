@@ -15,7 +15,7 @@ def exit_help(error_msg: str = None):
         print(f"{error_msg}\n", file=sys.stderr)
         status_code = 1
 
-    print("USAGE: generate_stations.py CSV_STATION_FILE\n")
+    print("USAGE: generate_station_data.py CSV_STATION_FILE\n")
     print("CSV file should be formatted as below.", end=' ')
     print("The first row is assumed to be the column names.")
     print("    | id | name       |")
