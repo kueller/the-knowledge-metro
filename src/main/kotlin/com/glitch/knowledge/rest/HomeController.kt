@@ -14,8 +14,17 @@ import java.util.*
 
 @Controller
 class HomeController(
-    @param:Value("\${application.use-mins}") private val useMins: Boolean = false
+    @param:Value("\${application.use-mins}") private val useMins: Boolean = false,
+    @param:Value("\${application.domain.url}") private val appUrl: String = "",
 ) {
+
+
+    private val metaTitle: String = "The Knowledge — Métro de Paris";
+    private val metaDesc: String = "Vous avez deux stations du métro. " +
+            "Essayez de trouver une itinéraire valide " +
+            "pour voyager de l'origine à la destinatoin. " +
+            "Sans plan, et sans erreur."
+
 
     @GetMapping("/")
     fun knowledge(
@@ -31,6 +40,9 @@ class HomeController(
 
         model.addAttribute("origin", stationData[0])
         model.addAttribute("destination", stationData[1])
+        model.addAttribute("title", this.metaTitle)
+        model.addAttribute("description", this.metaDesc)
+        model.addAttribute("url", this.appUrl)
         model.addAttribute("lang", finalLang)
         model.addAttribute("useMins", this.useMins)
 

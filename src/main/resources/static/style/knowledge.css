@@ -447,6 +447,12 @@ input[type="search"] {
     cursor: pointer;
 }
 
+.metro-button img {
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
 .metro-button:hover:enabled {
     transform: scale(1.2);
     box-shadow: 2px 2px 3px 2px darkgray;

@@ -84,7 +84,13 @@ function set_alt_text() {
     const lines = document.getElementsByClassName("metro-button");
     for (let i = 0; i < lines.length; i++) {
         let lineIndex = parseInt(lines[i].style.backgroundPositionX) / (GameConfig.line_style_width * -1)
-        lines[i].alt = GameConfig.text["line-alt"].translation.replace("$line", LINES[LINES_IN_ORDER[lineIndex]].name);
+        lines[i].children[0].alt = GameConfig.text["line-alt"].translation.replace("$line", LINES[LINES_IN_ORDER[lineIndex]].name);
+    }
+
+    const p_icons = document.getElementsByClassName("progress-icon");
+    for (let i = 0; i < p_icons.length; i++) {
+        let lineIndex = parseInt(p_icons[i].style.backgroundPosition) / (-18);
+        p_icons[i].alt = GameConfig.text["line-alt"].translation.replace("$line", LINES[LINES_IN_ORDER[lineIndex]].name);
     }
 }
 
@@ -246,6 +252,7 @@ function createProgressLineIcon(line_id) {
     icon.width = "1px";
     icon.height = "1px";
     icon.style.backgroundPosition = -1 * 18 * line_shift + "px 0";    
+    icon.alt = GameConfig.text["line-alt"].translation.replace("$line", LINES[line_id].name);
 
     return icon;
 }
@@ -522,8 +529,13 @@ function transitionToLine() {
         button.className = "metro-button";
         button.type = "button";
         button.style.backgroundPosition = -1 * GameConfig.line_style_width * i + "px 0";
-        button.alt = GameConfig.text["line-alt"].translation.replace("$line", LINES[line_id].name);
         button.onclick = function (e) { event_metroLineClicked(e, line_id); };
+
+        const img = document.createElement("img");
+        img.src = "./img/pixel.gif";
+        img.alt = GameConfig.text["line-alt"].translation.replace("$line", LINES[line_id].name);
+        button.appendChild(img);
+
         line_select.appendChild(button);
     }
 
