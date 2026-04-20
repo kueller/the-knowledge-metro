@@ -9,7 +9,7 @@ The version for the Paris Métro is live here: [https://knowledge.glitch.paris](
 
 This system was designed to be adaptable for any urban rail system. Following this introduction is a entire guide to setup 
 an instance of The Knowledge. While I don't really expect this to be used, I am still leaving it here for anyone who might be
-interested and who knows what they are doing. It will probably also help me when I forget my own code.
+interested and who knows what they are doing. It will probably also help me when I eventually forget my own code.
 
 # Requirements
 
@@ -221,7 +221,7 @@ The ORM models of the tables for the server can be found in [com.glitch.knowledg
 | Column Name | Type | Required? | Description |
 |    ---      | ---  |     ---   |      ---    |
 | **id** | int | **Yes** | Primary key. |
-| **name** | varchar(16) | **Yes** | Name of the line (don't use the id even if all your lines are numbered) |
+| **name** | varchar(16) | **Yes** | Name of the line (don't use the id even if all your lines are numbered). |
 | **type** | enum | **Yes** | `"STANDARD"`, `"LOOP"`, or `"SEMI_LOOP"` (See [Terminology](#terminology)) |
 
 ### station
