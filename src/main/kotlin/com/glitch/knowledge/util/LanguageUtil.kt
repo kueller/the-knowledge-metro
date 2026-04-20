@@ -71,7 +71,7 @@ fun checkAndUpdateLanguageFromHeader(request: HttpServletRequest, response: Http
     if (headerLang in listOf("fr", "en")) {
         var cookie: Cookie? = findCookie(request)
 
-        if (cookie?.value == headerLang) {
+        if (cookie?.value != headerLang) {
             addCookieToResponse(response, headerLang)
         }
     }
