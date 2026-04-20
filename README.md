@@ -9,7 +9,7 @@ The version for the Paris Métro is live here: [https://knowledge.glitch.paris](
 
 This system was designed to be adaptable for any urban rail system. Following this introduction is a entire guide to setup 
 an instance of The Knowledge. While I don't really expect this to be used, I am still leaving it here for anyone who might be
-interested and who knows what they are doing.
+interested and who knows what they are doing. It will probably also help me when I forget my own code.
 
 # Requirements
 
@@ -37,7 +37,7 @@ The Knowledge server is a **Spring Boot** (4.0.5) application running on the Jav
 The backend is written in **Kotlin** (2.3.20). Configuration is explained further in [Configuration](#configuration) and some further explanation
 in [Technical Overview](#technical-overview).
 
-The application connects to a MySQL database. MySQL is not specifically necessary. However, the database setup is important to 
+The application connects to a MySQL database. MySQL is not specifically necessary. However, the database setup in general is important to 
 understand and is discussed in depth in [Database Setup](#database-setup).
 
 The frontend is basic templated HTML, CSS, and Javascript. It also uses the [Fuse](https://github.com/krisk/Fuse) Javascript library
@@ -55,10 +55,10 @@ These are **not** required. You can skip this during compilation if you wish to 
 This is also explained further in [Building](#building).
 
 There are two optional Python scripts only to help during setup. This is explained further when creating the
-[JSON files](#json-libraries)
+[JSON files](#json-libraries) used in the frontend.
 
 The Paris metro version uses the official [Parisine](https://typofonderie.com/fr/fonts/parisine/details) font. The font files are not provided in the repository since it is
-officially licensed. So you will need your own font. 
+officially licensed. You will need your own font. 
 
 # Overview
 
@@ -67,7 +67,7 @@ A light overview of how this application functions, and an introduction to some 
 > [!NOTE]
 > Most of the frontend is in [knowledge.js](src/main/resources/static/js/knowledge.js).
 > However, this guide will focus on the backend system and will largely not cover the scripting or frontend. The focus of this guide is for anyone to
-> build their own game for any rail system in the world. I am not very good at frontend anyways.
+> build their own game for any rail system in the world. This would require a different frontend tailored for that system. I am not very good at frontend anyways.
 
 ## Terminology
 
@@ -89,8 +89,8 @@ in a perfect loop you can reach any station on the line eventually regardless of
 
 ### Tunnels
 
-Tunnels are **walking connections** between two or more [stations](#stations) that a player can take without leaving the paid area (or equivalent "station area" if there are
-no fares). This is different from a station that simply services multiple lines. In a tunnel network you are walking to a completely different station with a
+Tunnels are **walking connections** between two or more [stations](#stations) that one can take without leaving the paid area (or equivalent "station area" if there are
+no fares). This is different from a station that simply services multiple lines. In a tunnel network you are walking to a _completely different station_ with a
 distinct name. 
 
 Some examples:
@@ -108,23 +108,23 @@ network. These connections can be [incredibly long and impractical](https://yout
 
 1. The player is given two randomly chosen stations, an origin and a destination.
 2. From the origin, the player chooses a line to take, which direction to take that line, and a station to stop at. The player should be given as little information as possible since this is a memory game. Unfortunately it can't be done verbally like the "appearances" in the Knowledge of London.
-3. The game frontend will call the server `/maison/verify` endpoint to verify the path the player has taken.
-    - If the path is correct and the player has stopped at their destination, $$\textsf{\color{green}{\textbf{The player has won and the game is over.}}}$$
-    - If the path is correct and the player has **not** stopped at their destination, **the game continues and the player starts at step 2 again. The stopping point station becomes the new "origin" station.**
-    - If the path is incorrect for any reason $$\textsf{\color{red}{\textbf{The player has lost and the game is over.}}}$$
+3. The game frontend will call the server to verify the path the player has taken.
+    - If the path is correct and the player has stopped at their destination, $$\textsf{\color{green}{\textbf{the player has won and the game is over.}}}$$
+    - If the path is correct and the player has **not** stopped at their destination yet, **the game continues and the player starts at step 2 again. The stopping point station becomes the new "origin" station.**
+    - If the path is incorrect for any reason $$\textsf{\color{red}{\textbf{the player has lost and the game is over.}}}$$
 
 ## Technical Overview
 
 - The HTML for the main page is constructed using a Thymeleaf template. The randomly chosen stations are added here.
 - The frontend will handle the selection of the line, starting station, direction, and the stopping point.
-- The backend server has only one endpoint, `/maison/verify`. It only checks that the steps chosen are correct. Explained further in [Verify](#verify-endpoint)
-- Because of this the frontend will also need to mirror database data for the player to select. Maybe I could expand further API calls if there is a good reason.
+- The backend server has only one endpoint, `/maison/verify`. It only checks that the choices for each step are correct. It is explained further in [Verify](#verify-endpoint).
+- Because of this the frontend will also need to mirror some database data for the player to select. Maybe I could expand further API calls if there is a good reason.
 
 Reasons a player can fail the verify check:
 - The chosen line is not connected to the starting origin station.
     - If the origin station is connected to a tunnel network, a player can fail if the chosen line does not connect to any station on the tunnel network either.
 - The chosen stopping point station is not on the chosen line.
-- In a "standard" or "semi-loop" line, the player chose the wrong direction of travel to reach the chosen stopping point (calculated using [station position](#station-position))
+- In a "standard" or "semi-loop" line, the player chose the wrong direction of travel to reach the chosen stopping point (calculated using [station position](#station-position)).
 - The player chose an impossible direction of travel from, or to, a one-way station.
 - The player chose an impossible direction of travel on a semi-loop when both the starting and stopping points are one-way.
     - Using Paris 7bis as an example again, see the image below. The loop section is one-way. If the player attempted to go from _Pré-Saint-Gervais_ to _Place des Fêtes_ (the red arrow) this would be invalid since the train would exit the loop and eventually reach its terminus. The valid play wuld be to exit the loop and stop at _Botzaris_, a bidirectional station, and then enter the loop again to reach _Place des Fêtes_.
@@ -148,12 +148,12 @@ The `application*.properties` config files are in [src/main/resources](/src/main
 | `application.datasource.username` | string | Username for the database to connect to. In prod it is defined by `$KNOWLEDGE_DATABASE_USER`. |
 | `application.datasource.password` | string | Password for the database. In prod it is `$KNOWLEDGE_DATABASE_PASSWORD` |
 | `spring.exposed.generate-ddl` | boolean | If true the application will set up the database based on its defined schema. Set to false in production to not override anything.|
-| `spring.sql.init.mode` | string | If true the application will initialize the server with the values in [data.sql](src/main/resources/data.sql). Same danger applies as the last entry. |
+| `spring.sql.init.mode` | string | If true the application will initialize the server with the values in [data.sql](src/main/resources/data.sql). Set to false in production to not override anything. |
 
 > [!CAUTION]
-> Be sure to always set two entries (`spring.exposed.generate-ddl` and `spring.sql.init.mode`) as **false** in production.
+> Be sure to always set the last two entries (`spring.exposed.generate-ddl` and `spring.sql.init.mode`) as **false** in production.
 > If your production database account has write permissions this could overwrite the database entirely.
-> Although for this game, as described in [Databases](#databases), you can get away with a read-only account.
+> For this game, as described in [Databases](#databases), you can get away with a read-only account.
 
 From the above table there are four (4) environment variables that must be set when running in production.
 ```sh
@@ -190,7 +190,6 @@ When you have the output .jar file in `/target` you can run it with
 java -XX:+UseCompactObjectHeaders -jar /var/www/glitch/knowledge-1.x.x.jar --spring.profiles.active=prod
 ```
 Remember to check the version number and use whichever application environment you want. 
-set the `application.use-mins` config variable to `false`.
 
 The `-XX:-UseCompactObjectHeaders` flag is not required, but it helps performance at effectively no cost.
 
@@ -214,7 +213,7 @@ The ORM models of the tables for the server can be found in [com.glitch.knowledg
 
 > [!NOTE]
 > Since rail transport systems are largely fixed, and there is no reason for the game to _add_ any data, I connect the application to a **read-only** account.
-> I update the databases myself with the admin account. Unless you plan to allow migrations programatically, I also recommend this limited access.
+> I update the databases myself with the admin account. Unless you plan to allow migrations programatically, I also recommend you use this limited access.
 
 ## Tables
 
@@ -222,7 +221,7 @@ The ORM models of the tables for the server can be found in [com.glitch.knowledg
 | Column Name | Type | Required? | Description |
 |    ---      | ---  |     ---   |      ---    |
 | **id** | int | **Yes** | Primary key. |
-| **namne** | varchar(16) | **Yes** | Name of the line (don't use the id even if all your lines are numbered) |
+| **name** | varchar(16) | **Yes** | Name of the line (don't use the id even if all your lines are numbered) |
 | **type** | enum | **Yes** | `"STANDARD"`, `"LOOP"`, or `"SEMI_LOOP"` (See [Terminology](#terminology)) |
 
 ### station
@@ -241,15 +240,18 @@ Intermediate for the many-many relationship of station and line. Also includes s
 | **station_id** | int | **Yes** | Foreign key to station.id |
 | **line_id** | int | **Yes** | Foreign key to line.id |
 | **position** | int | **Yes** | The station's "postion" on the line. See [Station Position](#station-position) |
-| **branch_id** | int | No | The branch the station is on, if any. Links to station.id but not declared as foreign key since it can be `NULL` |
+| **branch_id** | int | No | The branch the station is on, if any. Links to the station.id of the terminus of that branch. It is `NULL` if this station is not on any branch. Because it can be `NULL`, it is not declared explicitly as a foreign key. |
 | **direction** | enum | **Yes** | `BIDIRECTIONAL`, `INCREASING`, or `DECREASING`. The last two are one-way but in different directions. See [Position](#station-position) |
+
+> [!NOTE]
+> The `branch_id` links to the **station** table and not the terminus table. But the station.id referenced should still be a terminus of the line.
 
 ### terminus
 Intermediate for the many-many relationship of the terminus stations of a line.
 
 | Column Name | Type | Required? | Description |
 |    ---      | ---  |     ---   |      ---    |
-| **id** | int (primary key) | **Yes** | |
+| **id** | int | **Yes** | Primary key. |
 | **line_id** | int | **Yes** | Foreign key to line.id |
 | **station_id** | int | **Yes** | Foreign key to station.id |
 
@@ -260,22 +262,22 @@ Intermediate for the many-many relationship of the terminus stations of a line.
 ### tunnel_network
 | Column Name | Type | Required? | Description |
 |    ---      | ---  |     ---   |      ---    |
-| **id** | int (primary key) | **Yes** | Stations have a many-one relationship with this id, if they are connected by the tunnel. |
-| **name** | varchar(100) | **Yes** | For internal reference. Never used in the application. Connecting tunnels don't have dedicated names in reality. |
+| **id** | int | **Yes** | Primary key. Stations have a many-one relationship with this id, if they are connected by the tunnel. |
+| **name** | varchar(100) | **Yes** | For internal reference. Never used in the application. Choose any name you'd like. |
 
 ## Station Position
 ![Partial image of Paris metro line 13. All stations are given a number, increasing from the north branches southward.](/etc/station_numbers.png)
 
 To calculate the direction of travel each station is given a number, starting from 0 at one and and counting up. Which end of a line is considered 0 is completely arbitrary.
-The numbers themselves are completely arbitrary and should not be used for any consistent analysis. In the above example, because the lower branch has fewer stations than the higher branch the numbers between _Brochant_ and _La Fourche_ jump from 5 to 8. **This is fine.** The only thing that matters is that the numbers increase in one direction of travel and decrease in the other direction. 
+The numbers themselves are also completely arbitrary and should not be used for any consistent analysis. In the above example, because the lower branch has fewer stations than the higher branch the numbers between _Brochant_ and _La Fourche_ jump from 5 to 8. **This is fine.** The only thing that matters is that the numbers **increase** in one direction of travel and **decrease** in the other direction. 
 
 This is how you can tag one-way stations in the [station_line](#station_line) table. If the one way station is pointing towards the 0 terminus, it is `DECREASING`. If it is pointing to towards the non-zero terminus it is `INCREASING`.
 
 Similarly, this is how the player's direction of travel is checked. The player's chosen end point should have a position that is between the starting point position and the chosen terminus position (it can also be equal to the terminus position if the stopping point is the terminus).
 
 > [!NOTE]
-> For semi-loop lines the player can go the "wrong way" by circling around on the loop. The only invalid case involves one-way stations. This case was described at
-> the end of [Technical Overview](#technical-overview).
+> For semi-loop lines the player can have a valid path going the "wrong way" by circling around on the loop. The only invalid case involves one-way stations. This case was
+> described at the end of [Technical Overview](#technical-overview).
 >
 > For "loop" lines, none of this matters.
 
@@ -295,7 +297,7 @@ I might include these "alternate names" in the station table in the future. This
 
 ## Testing
 For local testing there are two files for populating an in-memory [H2](https://h2database.com/html/main.html) database.
-- [schema.sql](/src/main/resources/schema.sql) for defining and creating the tables (this is now done automatically with the [Exposed](https://www.jetbrains.com/exposed/) library).
+- [schema.sql](/src/main/resources/schema.sql) for defining and creating the tables (in practice this is now done automatically with the [Exposed](https://www.jetbrains.com/exposed/) library).
 - [data.sql](/src/main/resources/data.sql) for populating the tables.
 
 These files contain a lot of SQL code using the same values as the production database. You can take a look at them to get a further example of what the database setup
@@ -306,13 +308,13 @@ looks like in practice.
 `GET /maison/verify/line/{line_id}/origin/{origin_id}/destination/{destination_id}/direction/{terminus_station_id}`
 
 The only endpoint the game runs on. It verifies a single "step" from origin to destination. The endpoint saves no state or information about the player's own game.
-It only cares if the parameters provided form a valid path. Therefore, it is up to the frontend to track the game state to know if the player has won the game.
+It only cares if the parameters provided form a valid path on the system. Therefore, it is up to the frontend to track the game state to know if the player has won the game.
 A single failed validation loses the game.
 
 The input ids are the database table ids of the lines and stations. This is not good practice. You should not be using SQL ids outside of the database. I may change this in the future.
 
 > [!NOTE]
-> Successful requests return `200`. Invalid requests return `400`. Any `400` or `500` range responses should be handled by the frontend and not count against the player
+> Successful requests return `200`. Invalid requests return `400`. Any `400` or `500` range responses should be handled by the frontend and **not** count against the player
 > since that implies a failed format or server error. A _wrong answer_ will still return `200`.
 
 > [!NOTE]
@@ -336,14 +338,14 @@ On a successful query the endpoint returns `200` and the following JSON
 | Name | Type | Description |
 | ---  |  --- |    ---      |
 | **status** | int | 0 on a valid path and -1 on a wrong one. |
-| **message** | string | `null` on a valid path and a failure message code on a wrong one. |
+| **message** | string\|optional | `null` on a valid path and a failure message code on a wrong one. |
 | **origin_id** | int\|optional | The starting point station id on a valid path. If a tunnel was used the id will be of the station that actually connected to the chosen line. On a wrong path the id will be `null`. |
 
 Any invalid ids will return a `400` with no data.
 
 > [!TIP]
 > You can use the `origin_id` to check if a tunnel network was used. If the `origin_id` in the response does not equal the one in the URL, it means the player
-> connected from their starting point to a different station that _did_ have access to the line. You can use the return `origin_id` to acknowledge the connected station.
+> connected from their starting point to a different station and accessed the line from there. You can use the return `origin_id` to acknowledge the connected station.
 
 ### Example (valid path)
 ```JSON
