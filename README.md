@@ -187,11 +187,9 @@ mvn clean install -DskipMinify
 
 When you have the output .jar file in `/target` you can run it with
 ```sh
-java -XX:+UseCompactObjectHeaders -jar /var/www/glitch/knowledge-1.x.x.jar --spring.profiles.active=prod
+java -jar target/knowledge-1.x.x.jar --spring.profiles.active=prod
 ```
 Remember to check the version number and use whichever application environment you want. 
-
-The `-XX:-UseCompactObjectHeaders` flag is not required, but it helps performance at effectively no cost.
 
 ## Running locally
 
